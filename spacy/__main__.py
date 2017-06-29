@@ -11,13 +11,14 @@ from spacy.cli import package as cli_package
 from spacy.cli import train as cli_train
 from spacy.cli import model as cli_model
 from spacy.cli import convert as cli_convert
+from spacy.cli import parse as cli_parse
 
 
 class CLI(object):
     """
     Command-line interface for spaCy
     """
-    commands = ('download', 'link', 'info', 'package', 'train', 'model', 'convert')
+    commands = ('download', 'link', 'info', 'package', 'parse', 'train', 'model', 'convert')
 
     @plac.annotations(
         model=("model to download (shortcut or model name)", "positional", None, str),
@@ -120,6 +121,11 @@ class CLI(object):
         """
         cli_convert(input_file, output_dir, n_sents, morphology)
 
+    def parse(self):
+        """
+        Parse the goods.
+        """
+        cli_parse()
 
     def __missing__(self, name):
         print("\n   Command %r does not exist."

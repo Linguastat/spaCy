@@ -5,3 +5,4 @@ from .package import package
 from .train import train, train_config
 from .model import model
 from .convert import convert
+from .parse import parse
