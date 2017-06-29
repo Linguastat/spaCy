@@ -275,6 +275,27 @@ variable ``VENV_DIR``, for example:
 
     VENV_DIR=".custom-env" fab clean make
 
+Compile Standalone Binary
+------
+
+Prerequisite, you need to setup your language, models and settings before you build the binary.  Once it's built, you can't change anything.
+
+.. code:: bash
+    # at a minimum, add the english model
+    python -m spacy download en
+
+First, you have to use Cython to compile the main class to a cpp file.  I remove the underscores in the main name.
+
+.. code:: bash
+
+    cython --embed -o spacy/main.c spacy/__main__.py
+
+Next, you have to build the package to create the binary.  Currently this binary will need to dynamically link to pylib in your python installation wherever it runs.
+
+.. code:: bash
+    # export PYTHONHOME=/path/to/folder/that/contains/binfolder/that/contains/python
+    gcc -v -Os -I .env/include/python3.6m -L /home/ling/anaconda3/lib -o bin/spacy spacy/main.c  -lpython3.6m -lpthread -lm -lutil -ldl
+
 Ubuntu
 ------
 
