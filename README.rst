@@ -293,8 +293,9 @@ First, you have to use Cython to compile the main class to a cpp file.  I remove
 Next, you have to build the package to create the binary.  Currently this binary will need to dynamically link to pylib in your python installation wherever it runs.
 
 .. code:: bash
-    # export PYTHONHOME=/path/to/folder/that/contains/binfolder/that/contains/python
-    gcc -v -Os -I .env/include/python3.6m -L /home/ling/anaconda3/lib -o bin/spacy spacy/main.c  -lpython3.6m -lpthread -lm -lutil -ldl
+
+    export PYTHONHOME=/path/to/folder/that/contains/binfolder/that/contains/python
+    gcc -v -Os -I path/to/env/python/include/python3.6m -L /path/to/python//lib -o bin/spacy spacy/main.c  -lpythonname3.X -lpthread -lm -lutil -ldl
 
 Ubuntu
 ------
