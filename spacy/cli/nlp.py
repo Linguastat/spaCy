@@ -10,12 +10,12 @@ from .. import about
 from .. import util
 
 
-def parse():
+def nlp(sntnc=""):
     # lets parse a static sentence
-    sentence = "At this time tomorrow, we will see if a summer crush can last the pressures of a Chicago winter."
+    #sntnc = "At this time tomorrow, we will see if a summer crush can last the pressures of a Chicago winter."
     #util.print_msg('Hello!  You are in the parse function.', 'Hello Title')
     
     # parse the sentence
-    nlp = spacy.en.English()
-    doc = nlp(sentence)
-    util.print_msg(str(doc.ents), 'Entity Recognition')
+    nlp = spacy.load('en')
+    doc = nlp(sntnc)
+    util.print_doc(doc)

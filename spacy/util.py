@@ -5,6 +5,7 @@ import ujson
 import regex as re
 from pathlib import Path
 import sys
+import csv
 import textwrap
 
 from .compat import basestring_, unicode_, input_
@@ -12,7 +13,7 @@ from .compat import basestring_, unicode_, input_
 
 LANGUAGES = {}
 _data_path = Path(__file__).parent / 'data'
-
+writer = csv.writer(sys.stdout, delimiter="\t")
 
 def set_lang_class(name, cls):
     global LANGUAGES
@@ -195,6 +196,14 @@ def print_msg(*text, **kwargs):
         print(tpl_title.format(msg=title))
     print(tpl_msg.format(msg=message))
 
+def print_doc(doc):
+    """
+    Print formatted document. 
+    """
+    # header
+    #writer.writerow(['INDEX', 'START', 'TEXT', 'LEMMA', 'TAG', 'POS', 'ENTITY', 'DEP'])
+    for word in doc:
+        writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, word.dep_))
 
 def _wrap_text(text):
     """
