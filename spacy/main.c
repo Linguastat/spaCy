@@ -552,12 +552,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
-#endif
-
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
@@ -680,6 +674,7 @@ int __pyx_module_is_main_spacy____main__ = 0;
 /* Implementation of 'spacy.__main__' */
 static PyObject *__pyx_builtin_object;
 static PyObject *__pyx_builtin_print;
+static char __pyx_k_[] = "";
 static char __pyx_k_L[] = "L";
 static char __pyx_k_N[] = "N";
 static char __pyx_k_P[] = "P";
@@ -691,6 +686,7 @@ static char __pyx_k_n[] = "n";
 static char __pyx_k_md[] = "md";
 static char __pyx_k_CLI[] = "CLI";
 static char __pyx_k_doc[] = "__doc__";
+static char __pyx_k_nlp[] = "nlp";
 static char __pyx_k_sys[] = "sys";
 static char __pyx_k_argv[] = "argv";
 static char __pyx_k_call[] = "call";
@@ -706,8 +702,8 @@ static char __pyx_k_self[] = "self";
 static char __pyx_k_test[] = "__test__";
 static char __pyx_k_force[] = "force";
 static char __pyx_k_model[] = "model";
-static char __pyx_k_parse[] = "parse";
 static char __pyx_k_print[] = "print";
+static char __pyx_k_sntnc[] = "sntnc";
 static char __pyx_k_spacy[] = "spacy";
 static char __pyx_k_train[] = "train";
 static char __pyx_k_direct[] = "direct";
@@ -719,6 +715,8 @@ static char __pyx_k_no_ner[] = "no_ner";
 static char __pyx_k_object[] = "object";
 static char __pyx_k_option[] = "option";
 static char __pyx_k_origin[] = "origin";
+static char __pyx_k_CLI_nlp[] = "CLI.nlp";
+static char __pyx_k_cli_nlp[] = "cli_nlp";
 static char __pyx_k_convert[] = "convert";
 static char __pyx_k_missing[] = "__missing__";
 static char __pyx_k_n_sents[] = "n_sents";
@@ -734,10 +732,8 @@ static char __pyx_k_download[] = "download";
 static char __pyx_k_markdown[] = "markdown";
 static char __pyx_k_qualname[] = "__qualname__";
 static char __pyx_k_CLI_model[] = "CLI.model";
-static char __pyx_k_CLI_parse[] = "CLI.parse";
 static char __pyx_k_CLI_train[] = "CLI.train";
 static char __pyx_k_cli_model[] = "cli_model";
-static char __pyx_k_cli_parse[] = "cli_parse";
 static char __pyx_k_cli_train[] = "cli_train";
 static char __pyx_k_input_dir[] = "input_dir";
 static char __pyx_k_link_name[] = "link_name";
@@ -773,6 +769,7 @@ static char __pyx_k_word_vectors_file[] = "word vectors file";
 static char __pyx_k_Don_t_train_parser[] = "Don't train parser";
 static char __pyx_k_Don_t_train_tagger[] = "Don't train tagger";
 static char __pyx_k_Brown_clusters_file[] = "Brown clusters file";
+static char __pyx_k_sentence_to_process[] = "sentence to process";
 static char __pyx_k_number_of_iterations[] = "number of iterations";
 static char __pyx_k_output_parent_directory[] = "output parent directory";
 static char __pyx_k_directory_with_model_data[] = "directory with model data";
@@ -795,6 +792,7 @@ static char __pyx_k_location_of_JSON_formatted_train[] = "location of JSON-forma
 static char __pyx_k_model_to_download_shortcut_or_mo[] = "model to download (shortcut or model name)";
 static char __pyx_k_output_directory_for_converted_f[] = "output directory for converted file";
 static char __pyx_k_package_name_or_local_path_to_mo[] = "package name or local path to model";
+static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_kp_s_Brown_clusters_file;
 static PyObject *__pyx_n_s_CLI;
 static PyObject *__pyx_n_s_CLI___missing;
@@ -803,8 +801,8 @@ static PyObject *__pyx_n_s_CLI_download;
 static PyObject *__pyx_n_s_CLI_info;
 static PyObject *__pyx_n_s_CLI_link;
 static PyObject *__pyx_n_s_CLI_model;
+static PyObject *__pyx_n_s_CLI_nlp;
 static PyObject *__pyx_n_s_CLI_package;
-static PyObject *__pyx_n_s_CLI_parse;
 static PyObject *__pyx_n_s_CLI_train;
 static PyObject *__pyx_kp_s_Command_line_interface_for_spaC;
 static PyObject *__pyx_kp_s_Command_r_does_not_exist_Use_th;
@@ -827,8 +825,8 @@ static PyObject *__pyx_n_s_cli_download;
 static PyObject *__pyx_n_s_cli_info;
 static PyObject *__pyx_n_s_cli_link;
 static PyObject *__pyx_n_s_cli_model;
+static PyObject *__pyx_n_s_cli_nlp;
 static PyObject *__pyx_n_s_cli_package;
-static PyObject *__pyx_n_s_cli_parse;
 static PyObject *__pyx_n_s_cli_train;
 static PyObject *__pyx_n_s_clusters_data;
 static PyObject *__pyx_n_s_commands;
@@ -877,6 +875,7 @@ static PyObject *__pyx_n_s_n_sents;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_kp_s_name_of_shortuct_link_to_create;
+static PyObject *__pyx_n_s_nlp;
 static PyObject *__pyx_n_s_no_ner;
 static PyObject *__pyx_n_s_no_parser;
 static PyObject *__pyx_n_s_no_tagger;
@@ -891,7 +890,6 @@ static PyObject *__pyx_kp_s_output_directory_to_store_model;
 static PyObject *__pyx_kp_s_output_parent_directory;
 static PyObject *__pyx_n_s_package;
 static PyObject *__pyx_kp_s_package_name_or_local_path_to_mo;
-static PyObject *__pyx_n_s_parse;
 static PyObject *__pyx_n_s_parser_L1;
 static PyObject *__pyx_kp_s_path_to_meta_json;
 static PyObject *__pyx_n_s_plac;
@@ -900,6 +898,8 @@ static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_self;
+static PyObject *__pyx_kp_s_sentence_to_process;
+static PyObject *__pyx_n_s_sntnc;
 static PyObject *__pyx_n_s_spacy;
 static PyObject *__pyx_n_s_spacy___main;
 static PyObject *__pyx_n_s_spacy_cli;
@@ -917,37 +917,38 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_6package(CYTHON_UNUSED PyObject 
 static PyObject *__pyx_pf_5spacy_8__main___3CLI_8train(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_lang, PyObject *__pyx_v_output_dir, PyObject *__pyx_v_train_data, PyObject *__pyx_v_dev_data, PyObject *__pyx_v_n_iter, PyObject *__pyx_v_parser_L1, PyObject *__pyx_v_no_tagger, PyObject *__pyx_v_no_parser, PyObject *__pyx_v_no_ner); /* proto */
 static PyObject *__pyx_pf_5spacy_8__main___3CLI_10model(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_lang, PyObject *__pyx_v_model_dir, PyObject *__pyx_v_freqs_data, PyObject *__pyx_v_clusters_data, PyObject *__pyx_v_vectors_data); /* proto */
 static PyObject *__pyx_pf_5spacy_8__main___3CLI_12convert(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_input_file, PyObject *__pyx_v_output_dir, PyObject *__pyx_v_n_sents, PyObject *__pyx_v_morphology); /* proto */
-static PyObject *__pyx_pf_5spacy_8__main___3CLI_14parse(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5spacy_8__main___3CLI_14nlp(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_sntnc); /* proto */
 static PyObject *__pyx_pf_5spacy_8__main___3CLI_16__missing__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_name); /* proto */
 static PyObject *__pyx_float_0_0;
 static PyObject *__pyx_int_10;
 static PyObject *__pyx_int_15;
-static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
-static PyObject *__pyx_tuple__4;
+static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__5;
-static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_tuple__10;
+static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__14;
-static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__15;
 static PyObject *__pyx_tuple__17;
-static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__20;
-static PyObject *__pyx_tuple__22;
+static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__23;
-static PyObject *__pyx_tuple__25;
-static PyObject *__pyx_codeobj__3;
-static PyObject *__pyx_codeobj__6;
-static PyObject *__pyx_codeobj__9;
-static PyObject *__pyx_codeobj__12;
-static PyObject *__pyx_codeobj__15;
-static PyObject *__pyx_codeobj__18;
-static PyObject *__pyx_codeobj__21;
-static PyObject *__pyx_codeobj__24;
-static PyObject *__pyx_codeobj__26;
+static PyObject *__pyx_tuple__24;
+static PyObject *__pyx_tuple__26;
+static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_codeobj__4;
+static PyObject *__pyx_codeobj__7;
+static PyObject *__pyx_codeobj__10;
+static PyObject *__pyx_codeobj__13;
+static PyObject *__pyx_codeobj__16;
+static PyObject *__pyx_codeobj__19;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__25;
+static PyObject *__pyx_codeobj__28;
 
 /* "spacy/__main__.py":28
  *                 "perform compatibility check", "flag", "d", bool)
@@ -2222,7 +2223,7 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_12convert(CYTHON_UNUSED PyObject
  *         """
  *         cli_convert(input_file, output_dir, n_sents, morphology)             # <<<<<<<<<<<<<<
  * 
- *     def parse(self):
+ *     @plac.annotations(
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_cli_convert); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -2285,48 +2286,100 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_12convert(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "spacy/__main__.py":124
- *         cli_convert(input_file, output_dir, n_sents, morphology)
- * 
- *     def parse(self):             # <<<<<<<<<<<<<<
+/* "spacy/__main__.py":127
+ *         sntnc=("sentence to process", "positional", None, str)
+ *     )
+ *     def nlp(self, sntnc=""):             # <<<<<<<<<<<<<<
  *         """
  *         Parse the goods.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5spacy_8__main___3CLI_15parse(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_5spacy_8__main___3CLI_14parse[] = "\n        Parse the goods.\n        ";
-static PyMethodDef __pyx_mdef_5spacy_8__main___3CLI_15parse = {"parse", (PyCFunction)__pyx_pw_5spacy_8__main___3CLI_15parse, METH_O, __pyx_doc_5spacy_8__main___3CLI_14parse};
-static PyObject *__pyx_pw_5spacy_8__main___3CLI_15parse(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_5spacy_8__main___3CLI_15nlp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5spacy_8__main___3CLI_14nlp[] = "\n        Parse the goods.\n        ";
+static PyMethodDef __pyx_mdef_5spacy_8__main___3CLI_15nlp = {"nlp", (PyCFunction)__pyx_pw_5spacy_8__main___3CLI_15nlp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5spacy_8__main___3CLI_14nlp};
+static PyObject *__pyx_pw_5spacy_8__main___3CLI_15nlp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  CYTHON_UNUSED PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_sntnc = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("parse (wrapper)", 0);
-  __pyx_r = __pyx_pf_5spacy_8__main___3CLI_14parse(__pyx_self, ((PyObject *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("nlp (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_sntnc,0};
+    PyObject* values[2] = {0,0};
+    values[1] = ((PyObject *)((PyObject*)__pyx_kp_s_));
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sntnc);
+          if (value) { values[1] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "nlp") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_sntnc = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("nlp", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("spacy.__main__.CLI.nlp", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5spacy_8__main___3CLI_14nlp(__pyx_self, __pyx_v_self, __pyx_v_sntnc);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5spacy_8__main___3CLI_14parse(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_5spacy_8__main___3CLI_14nlp(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_sntnc) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("parse", 0);
+  __Pyx_RefNannySetupContext("nlp", 0);
 
-  /* "spacy/__main__.py":128
+  /* "spacy/__main__.py":131
  *         Parse the goods.
  *         """
- *         cli_parse()             # <<<<<<<<<<<<<<
+ *         cli_nlp(sntnc)             # <<<<<<<<<<<<<<
  * 
  *     def __missing__(self, name):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_cli_parse); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_cli_nlp); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -2338,20 +2391,27 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_14parse(CYTHON_UNUSED PyObject *
       __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_sntnc); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    __Pyx_INCREF(__pyx_v_sntnc);
+    __Pyx_GIVEREF(__pyx_v_sntnc);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_sntnc);
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "spacy/__main__.py":124
- *         cli_convert(input_file, output_dir, n_sents, morphology)
- * 
- *     def parse(self):             # <<<<<<<<<<<<<<
+  /* "spacy/__main__.py":127
+ *         sntnc=("sentence to process", "positional", None, str)
+ *     )
+ *     def nlp(self, sntnc=""):             # <<<<<<<<<<<<<<
  *         """
  *         Parse the goods.
  */
@@ -2363,7 +2423,8 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_14parse(CYTHON_UNUSED PyObject *
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("spacy.__main__.CLI.parse", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("spacy.__main__.CLI.nlp", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2371,8 +2432,8 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_14parse(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "spacy/__main__.py":130
- *         cli_parse()
+/* "spacy/__main__.py":133
+ *         cli_nlp(sntnc)
  * 
  *     def __missing__(self, name):             # <<<<<<<<<<<<<<
  *         print("\n   Command %r does not exist."
@@ -2411,11 +2472,11 @@ static PyObject *__pyx_pw_5spacy_8__main___3CLI_17__missing__(PyObject *__pyx_se
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__missing__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__missing__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__missing__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__missing__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2428,7 +2489,7 @@ static PyObject *__pyx_pw_5spacy_8__main___3CLI_17__missing__(PyObject *__pyx_se
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__missing__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__missing__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("spacy.__main__.CLI.__missing__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2451,35 +2512,35 @@ static PyObject *__pyx_pf_5spacy_8__main___3CLI_16__missing__(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__missing__", 0);
 
-  /* "spacy/__main__.py":132
+  /* "spacy/__main__.py":135
  *     def __missing__(self, name):
  *         print("\n   Command %r does not exist."
  *               "\n   Use the --help flag for a list of available commands.\n" % name)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Command_r_does_not_exist_Use_th, __pyx_v_name); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Command_r_does_not_exist_Use_th, __pyx_v_name); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "spacy/__main__.py":131
+  /* "spacy/__main__.py":134
  * 
  *     def __missing__(self, name):
  *         print("\n   Command %r does not exist."             # <<<<<<<<<<<<<<
  *               "\n   Use the --help flag for a list of available commands.\n" % name)
  * 
  */
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "spacy/__main__.py":130
- *         cli_parse()
+  /* "spacy/__main__.py":133
+ *         cli_nlp(sntnc)
  * 
  *     def __missing__(self, name):             # <<<<<<<<<<<<<<
  *         print("\n   Command %r does not exist."
@@ -2523,6 +2584,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
   {&__pyx_kp_s_Brown_clusters_file, __pyx_k_Brown_clusters_file, sizeof(__pyx_k_Brown_clusters_file), 0, 0, 1, 0},
   {&__pyx_n_s_CLI, __pyx_k_CLI, sizeof(__pyx_k_CLI), 0, 0, 1, 1},
   {&__pyx_n_s_CLI___missing, __pyx_k_CLI___missing, sizeof(__pyx_k_CLI___missing), 0, 0, 1, 1},
@@ -2531,8 +2593,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_CLI_info, __pyx_k_CLI_info, sizeof(__pyx_k_CLI_info), 0, 0, 1, 1},
   {&__pyx_n_s_CLI_link, __pyx_k_CLI_link, sizeof(__pyx_k_CLI_link), 0, 0, 1, 1},
   {&__pyx_n_s_CLI_model, __pyx_k_CLI_model, sizeof(__pyx_k_CLI_model), 0, 0, 1, 1},
+  {&__pyx_n_s_CLI_nlp, __pyx_k_CLI_nlp, sizeof(__pyx_k_CLI_nlp), 0, 0, 1, 1},
   {&__pyx_n_s_CLI_package, __pyx_k_CLI_package, sizeof(__pyx_k_CLI_package), 0, 0, 1, 1},
-  {&__pyx_n_s_CLI_parse, __pyx_k_CLI_parse, sizeof(__pyx_k_CLI_parse), 0, 0, 1, 1},
   {&__pyx_n_s_CLI_train, __pyx_k_CLI_train, sizeof(__pyx_k_CLI_train), 0, 0, 1, 1},
   {&__pyx_kp_s_Command_line_interface_for_spaC, __pyx_k_Command_line_interface_for_spaC, sizeof(__pyx_k_Command_line_interface_for_spaC), 0, 0, 1, 0},
   {&__pyx_kp_s_Command_r_does_not_exist_Use_th, __pyx_k_Command_r_does_not_exist_Use_th, sizeof(__pyx_k_Command_r_does_not_exist_Use_th), 0, 0, 1, 0},
@@ -2555,8 +2617,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cli_info, __pyx_k_cli_info, sizeof(__pyx_k_cli_info), 0, 0, 1, 1},
   {&__pyx_n_s_cli_link, __pyx_k_cli_link, sizeof(__pyx_k_cli_link), 0, 0, 1, 1},
   {&__pyx_n_s_cli_model, __pyx_k_cli_model, sizeof(__pyx_k_cli_model), 0, 0, 1, 1},
+  {&__pyx_n_s_cli_nlp, __pyx_k_cli_nlp, sizeof(__pyx_k_cli_nlp), 0, 0, 1, 1},
   {&__pyx_n_s_cli_package, __pyx_k_cli_package, sizeof(__pyx_k_cli_package), 0, 0, 1, 1},
-  {&__pyx_n_s_cli_parse, __pyx_k_cli_parse, sizeof(__pyx_k_cli_parse), 0, 0, 1, 1},
   {&__pyx_n_s_cli_train, __pyx_k_cli_train, sizeof(__pyx_k_cli_train), 0, 0, 1, 1},
   {&__pyx_n_s_clusters_data, __pyx_k_clusters_data, sizeof(__pyx_k_clusters_data), 0, 0, 1, 1},
   {&__pyx_n_s_commands, __pyx_k_commands, sizeof(__pyx_k_commands), 0, 0, 1, 1},
@@ -2605,6 +2667,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_kp_s_name_of_shortuct_link_to_create, __pyx_k_name_of_shortuct_link_to_create, sizeof(__pyx_k_name_of_shortuct_link_to_create), 0, 0, 1, 0},
+  {&__pyx_n_s_nlp, __pyx_k_nlp, sizeof(__pyx_k_nlp), 0, 0, 1, 1},
   {&__pyx_n_s_no_ner, __pyx_k_no_ner, sizeof(__pyx_k_no_ner), 0, 0, 1, 1},
   {&__pyx_n_s_no_parser, __pyx_k_no_parser, sizeof(__pyx_k_no_parser), 0, 0, 1, 1},
   {&__pyx_n_s_no_tagger, __pyx_k_no_tagger, sizeof(__pyx_k_no_tagger), 0, 0, 1, 1},
@@ -2619,7 +2682,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_output_parent_directory, __pyx_k_output_parent_directory, sizeof(__pyx_k_output_parent_directory), 0, 0, 1, 0},
   {&__pyx_n_s_package, __pyx_k_package, sizeof(__pyx_k_package), 0, 0, 1, 1},
   {&__pyx_kp_s_package_name_or_local_path_to_mo, __pyx_k_package_name_or_local_path_to_mo, sizeof(__pyx_k_package_name_or_local_path_to_mo), 0, 0, 1, 0},
-  {&__pyx_n_s_parse, __pyx_k_parse, sizeof(__pyx_k_parse), 0, 0, 1, 1},
   {&__pyx_n_s_parser_L1, __pyx_k_parser_L1, sizeof(__pyx_k_parser_L1), 0, 0, 1, 1},
   {&__pyx_kp_s_path_to_meta_json, __pyx_k_path_to_meta_json, sizeof(__pyx_k_path_to_meta_json), 0, 0, 1, 0},
   {&__pyx_n_s_plac, __pyx_k_plac, sizeof(__pyx_k_plac), 0, 0, 1, 1},
@@ -2628,6 +2690,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
+  {&__pyx_kp_s_sentence_to_process, __pyx_k_sentence_to_process, sizeof(__pyx_k_sentence_to_process), 0, 0, 1, 0},
+  {&__pyx_n_s_sntnc, __pyx_k_sntnc, sizeof(__pyx_k_sntnc), 0, 0, 1, 1},
   {&__pyx_n_s_spacy, __pyx_k_spacy, sizeof(__pyx_k_spacy), 0, 0, 1, 1},
   {&__pyx_n_s_spacy___main, __pyx_k_spacy___main, sizeof(__pyx_k_spacy___main), 0, 0, 1, 1},
   {&__pyx_n_s_spacy_cli, __pyx_k_spacy_cli, sizeof(__pyx_k_spacy_cli), 0, 0, 1, 1},
@@ -2642,7 +2706,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2655,13 +2719,13 @@ static int __Pyx_InitCachedConstants(void) {
   /* "spacy/__main__.py":21
  *     Command-line interface for spaCy
  *     """
- *     commands = ('download', 'link', 'info', 'package', 'parse', 'train', 'model', 'convert')             # <<<<<<<<<<<<<<
+ *     commands = ('download', 'link', 'info', 'package', 'nlp', 'train', 'model', 'convert')             # <<<<<<<<<<<<<<
  * 
  *     @plac.annotations(
  */
-  __pyx_tuple_ = PyTuple_Pack(8, __pyx_n_s_download, __pyx_n_s_link, __pyx_n_s_info, __pyx_n_s_package, __pyx_n_s_parse, __pyx_n_s_train, __pyx_n_s_model, __pyx_n_s_convert); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  __pyx_tuple__2 = PyTuple_Pack(8, __pyx_n_s_download, __pyx_n_s_link, __pyx_n_s_info, __pyx_n_s_package, __pyx_n_s_nlp, __pyx_n_s_train, __pyx_n_s_model, __pyx_n_s_convert); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
 
   /* "spacy/__main__.py":28
  *                 "perform compatibility check", "flag", "d", bool)
@@ -2670,13 +2734,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Download compatible model from default download path using pip. Model
  */
-  __pyx_tuple__2 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_model, __pyx_n_s_direct); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_download, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__4 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__3 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_model, __pyx_n_s_direct); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_download, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__5 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "spacy/__main__.py":42
  *         force=("force overwriting of existing link", "flag", "f", bool)
@@ -2685,13 +2749,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Create a symlink for models within the spacy/data directory. Accepts
  */
-  __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_origin, __pyx_n_s_link_name, __pyx_n_s_force); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_link, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__7 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__6 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_origin, __pyx_n_s_link_name, __pyx_n_s_force); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_link, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__8 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "spacy/__main__.py":55
  *         markdown=("generate Markdown for GitHub issues", "flag", "md", str)
@@ -2700,13 +2764,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Print info about spaCy installation. If a model shortcut link is
  */
-  __pyx_tuple__8 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_model, __pyx_n_s_markdown); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_info, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__10 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__9 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_model, __pyx_n_s_markdown); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_info, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__11 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "spacy/__main__.py":70
  *         force=("force overwriting of existing folder in output directory", "flag", "f", bool)
@@ -2715,13 +2779,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Generate Python package for model data, including meta and required
  */
-  __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_input_dir, __pyx_n_s_output_dir, __pyx_n_s_meta, __pyx_n_s_force); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_package, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__13 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__12 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_input_dir, __pyx_n_s_output_dir, __pyx_n_s_meta, __pyx_n_s_force); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_package, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__14 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "spacy/__main__.py":90
  *         no_ner=("Don't train NER", "flag", "N", bool)
@@ -2730,13 +2794,13 @@ static int __Pyx_InitCachedConstants(void) {
  *               parser_L1=0.0, no_tagger=False, no_parser=False, no_ner=False):
  *         """
  */
-  __pyx_tuple__14 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_lang, __pyx_n_s_output_dir, __pyx_n_s_train_data, __pyx_n_s_dev_data, __pyx_n_s_n_iter, __pyx_n_s_parser_L1, __pyx_n_s_no_tagger, __pyx_n_s_no_parser, __pyx_n_s_no_ner); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(10, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_train, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__16 = PyTuple_Pack(6, ((PyObject *)Py_None), ((PyObject *)__pyx_int_15), ((PyObject*)__pyx_float_0_0), ((PyObject *)Py_False), ((PyObject *)Py_False), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__15 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_lang, __pyx_n_s_output_dir, __pyx_n_s_train_data, __pyx_n_s_dev_data, __pyx_n_s_n_iter, __pyx_n_s_parser_L1, __pyx_n_s_no_tagger, __pyx_n_s_no_parser, __pyx_n_s_no_ner); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(10, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_train, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__17 = PyTuple_Pack(6, ((PyObject *)Py_None), ((PyObject *)__pyx_int_15), ((PyObject*)__pyx_float_0_0), ((PyObject *)Py_False), ((PyObject *)Py_False), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "spacy/__main__.py":105
  *         vectors_data=("word vectors file", "positional", None, str)
@@ -2745,13 +2809,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Initialize a new model and its data directory.
  */
-  __pyx_tuple__17 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_lang, __pyx_n_s_model_dir, __pyx_n_s_freqs_data, __pyx_n_s_clusters_data, __pyx_n_s_vectors_data); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_model, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__19 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__18 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_lang, __pyx_n_s_model_dir, __pyx_n_s_freqs_data, __pyx_n_s_clusters_data, __pyx_n_s_vectors_data); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_model, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__20 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "spacy/__main__.py":117
  *         morphology=("Enable appending morphology to tags", "flag", "m", bool)
@@ -2760,37 +2824,40 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Convert files into JSON format for use with train command and other
  */
-  __pyx_tuple__20 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_input_file, __pyx_n_s_output_dir, __pyx_n_s_n_sents, __pyx_n_s_morphology); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_convert, 117, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_tuple__22 = PyTuple_Pack(2, ((PyObject *)__pyx_int_10), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__21 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_input_file, __pyx_n_s_output_dir, __pyx_n_s_n_sents, __pyx_n_s_morphology); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_convert, 117, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__23 = PyTuple_Pack(2, ((PyObject *)__pyx_int_10), ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "spacy/__main__.py":124
- *         cli_convert(input_file, output_dir, n_sents, morphology)
- * 
- *     def parse(self):             # <<<<<<<<<<<<<<
+  /* "spacy/__main__.py":127
+ *         sntnc=("sentence to process", "positional", None, str)
+ *     )
+ *     def nlp(self, sntnc=""):             # <<<<<<<<<<<<<<
  *         """
  *         Parse the goods.
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_parse, 124, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__24 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_sntnc); if (unlikely(!__pyx_tuple__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_nlp, 127, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__26 = PyTuple_Pack(1, ((PyObject*)__pyx_kp_s_)); if (unlikely(!__pyx_tuple__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
-  /* "spacy/__main__.py":130
- *         cli_parse()
+  /* "spacy/__main__.py":133
+ *         cli_nlp(sntnc)
  * 
  *     def __missing__(self, name):             # <<<<<<<<<<<<<<
  *         print("\n   Command %r does not exist."
  *               "\n   Use the --help flag for a list of available commands.\n" % name)
  */
-  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_missing, 130, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__27)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mnt_hgfs_antgitboxmac_spaCy_spa, __pyx_n_s_missing, 133, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3032,7 +3099,7 @@ PyMODINIT_FUNC PyInit___main__(void)
  * from spacy.cli import train as cli_train
  * from spacy.cli import model as cli_model             # <<<<<<<<<<<<<<
  * from spacy.cli import convert as cli_convert
- * from spacy.cli import parse as cli_parse
+ * from spacy.cli import nlp as cli_nlp
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -3052,7 +3119,7 @@ PyMODINIT_FUNC PyInit___main__(void)
  * from spacy.cli import train as cli_train
  * from spacy.cli import model as cli_model
  * from spacy.cli import convert as cli_convert             # <<<<<<<<<<<<<<
- * from spacy.cli import parse as cli_parse
+ * from spacy.cli import nlp as cli_nlp
  * 
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3072,21 +3139,21 @@ PyMODINIT_FUNC PyInit___main__(void)
   /* "spacy/__main__.py":14
  * from spacy.cli import model as cli_model
  * from spacy.cli import convert as cli_convert
- * from spacy.cli import parse as cli_parse             # <<<<<<<<<<<<<<
+ * from spacy.cli import nlp as cli_nlp             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_parse);
-  __Pyx_GIVEREF(__pyx_n_s_parse);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_parse);
+  __Pyx_INCREF(__pyx_n_s_nlp);
+  __Pyx_GIVEREF(__pyx_n_s_nlp);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_nlp);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_spacy_cli, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_parse); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_nlp); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cli_parse, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cli_nlp, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -3110,14 +3177,14 @@ PyMODINIT_FUNC PyInit___main__(void)
   /* "spacy/__main__.py":21
  *     Command-line interface for spaCy
  *     """
- *     commands = ('download', 'link', 'info', 'package', 'parse', 'train', 'model', 'convert')             # <<<<<<<<<<<<<<
+ *     commands = ('download', 'link', 'info', 'package', 'nlp', 'train', 'model', 'convert')             # <<<<<<<<<<<<<<
  * 
  *     @plac.annotations(
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_commands, __pyx_tuple_) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_commands, __pyx_tuple__2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "spacy/__main__.py":23
- *     commands = ('download', 'link', 'info', 'package', 'parse', 'train', 'model', 'convert')
+ *     commands = ('download', 'link', 'info', 'package', 'nlp', 'train', 'model', 'convert')
  * 
  *     @plac.annotations(             # <<<<<<<<<<<<<<
  *         model=("model to download (shortcut or model name)", "positional", None, str),
@@ -3180,7 +3247,7 @@ PyMODINIT_FUNC PyInit___main__(void)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "spacy/__main__.py":23
- *     commands = ('download', 'link', 'info', 'package', 'parse', 'train', 'model', 'convert')
+ *     commands = ('download', 'link', 'info', 'package', 'nlp', 'train', 'model', 'convert')
  * 
  *     @plac.annotations(             # <<<<<<<<<<<<<<
  *         model=("model to download (shortcut or model name)", "positional", None, str),
@@ -3198,9 +3265,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *         """
  *         Download compatible model from default download path using pip. Model
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_1download, 0, __pyx_n_s_CLI_download, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_1download, 0, __pyx_n_s_CLI_download, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__4);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__5);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
     __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
@@ -3336,9 +3403,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *         """
  *         Create a symlink for models within the spacy/data directory. Accepts
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_3link, 0, __pyx_n_s_CLI_link, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_3link, 0, __pyx_n_s_CLI_link, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__7);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__8);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
     __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
@@ -3450,9 +3517,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *         """
  *         Print info about spaCy installation. If a model shortcut link is
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_5info, 0, __pyx_n_s_CLI_info, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_5info, 0, __pyx_n_s_CLI_info, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__10);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__11);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
     __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
@@ -3612,9 +3679,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *         """
  *         Generate Python package for model data, including meta and required
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_7package, 0, __pyx_n_s_CLI_package, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_7package, 0, __pyx_n_s_CLI_package, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__13);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__14);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
     __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
@@ -3894,9 +3961,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *               parser_L1=0.0, no_tagger=False, no_parser=False, no_ner=False):
  *         """
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_9train, 0, __pyx_n_s_CLI_train, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_9train, 0, __pyx_n_s_CLI_train, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__16);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__17);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
     __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
@@ -4080,9 +4147,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *         """
  *         Initialize a new model and its data directory.
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_11model, 0, __pyx_n_s_CLI_model, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_11model, 0, __pyx_n_s_CLI_model, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__19);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__20);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
     __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
@@ -4242,9 +4309,9 @@ PyMODINIT_FUNC PyInit___main__(void)
  *         """
  *         Convert files into JSON format for use with train command and other
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_13convert, 0, __pyx_n_s_CLI_convert, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_13convert, 0, __pyx_n_s_CLI_convert, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__22);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_5, __pyx_tuple__23);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
     __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
@@ -4277,25 +4344,103 @@ PyMODINIT_FUNC PyInit___main__(void)
   /* "spacy/__main__.py":124
  *         cli_convert(input_file, output_dir, n_sents, morphology)
  * 
- *     def parse(self):             # <<<<<<<<<<<<<<
+ *     @plac.annotations(             # <<<<<<<<<<<<<<
+ *         sntnc=("sentence to process", "positional", None, str)
+ *     )
+ */
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_plac); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_annotations); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "spacy/__main__.py":125
+ * 
+ *     @plac.annotations(
+ *         sntnc=("sentence to process", "positional", None, str)             # <<<<<<<<<<<<<<
+ *     )
+ *     def nlp(self, sntnc=""):
+ */
+  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_INCREF(__pyx_kp_s_sentence_to_process);
+  __Pyx_GIVEREF(__pyx_kp_s_sentence_to_process);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_s_sentence_to_process);
+  __Pyx_INCREF(__pyx_n_s_positional);
+  __Pyx_GIVEREF(__pyx_n_s_positional);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_n_s_positional);
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  PyTuple_SET_ITEM(__pyx_t_5, 2, Py_None);
+  __Pyx_INCREF(((PyObject *)(&PyString_Type)));
+  __Pyx_GIVEREF(((PyObject *)(&PyString_Type)));
+  PyTuple_SET_ITEM(__pyx_t_5, 3, ((PyObject *)(&PyString_Type)));
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_sntnc, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "spacy/__main__.py":124
+ *         cli_convert(input_file, output_dir, n_sents, morphology)
+ * 
+ *     @plac.annotations(             # <<<<<<<<<<<<<<
+ *         sntnc=("sentence to process", "positional", None, str)
+ *     )
+ */
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "spacy/__main__.py":127
+ *         sntnc=("sentence to process", "positional", None, str)
+ *     )
+ *     def nlp(self, sntnc=""):             # <<<<<<<<<<<<<<
  *         """
  *         Parse the goods.
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_15parse, 0, __pyx_n_s_CLI_parse, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_parse, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_15nlp, 0, __pyx_n_s_CLI_nlp, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__26);
+  __pyx_t_8 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_8)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_8) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_8); __pyx_t_8 = NULL;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_7);
+    __pyx_t_7 = 0;
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_nlp, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "spacy/__main__.py":130
- *         cli_parse()
+  /* "spacy/__main__.py":133
+ *         cli_nlp(sntnc)
  * 
  *     def __missing__(self, name):             # <<<<<<<<<<<<<<
  *         print("\n   Command %r does not exist."
  *               "\n   Use the --help flag for a list of available commands.\n" % name)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_17__missing__, 0, __pyx_n_s_CLI___missing, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5spacy_8__main___3CLI_17__missing__, 0, __pyx_n_s_CLI___missing, NULL, __pyx_n_s_spacy___main, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_missing, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_missing, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "spacy/__main__.py":17
@@ -4313,71 +4458,71 @@ PyMODINIT_FUNC PyInit___main__(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "spacy/__main__.py":135
+  /* "spacy/__main__.py":138
  * 
  * 
  * if __name__ == '__main__':             # <<<<<<<<<<<<<<
  *     import plac
  *     import sys
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_name_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_name_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_main, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_main, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_9) {
 
-    /* "spacy/__main__.py":136
+    /* "spacy/__main__.py":139
  * 
  * if __name__ == '__main__':
  *     import plac             # <<<<<<<<<<<<<<
  *     import sys
  *     sys.argv[0] = 'spacy'
  */
-    __pyx_t_1 = __Pyx_Import(__pyx_n_s_plac, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_Import(__pyx_n_s_plac, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_plac, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_plac, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "spacy/__main__.py":137
+    /* "spacy/__main__.py":140
  * if __name__ == '__main__':
  *     import plac
  *     import sys             # <<<<<<<<<<<<<<
  *     sys.argv[0] = 'spacy'
  *     plac.Interpreter.call(CLI)
  */
-    __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "spacy/__main__.py":138
+    /* "spacy/__main__.py":141
  *     import plac
  *     import sys
  *     sys.argv[0] = 'spacy'             # <<<<<<<<<<<<<<
  *     plac.Interpreter.call(CLI)
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_argv); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_argv); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_2, 0, __pyx_n_s_spacy, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_2, 0, __pyx_n_s_spacy, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "spacy/__main__.py":139
+    /* "spacy/__main__.py":142
  *     import sys
  *     sys.argv[0] = 'spacy'
  *     plac.Interpreter.call(CLI)             # <<<<<<<<<<<<<<
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_plac); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_plac); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_Interpreter); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_Interpreter); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_call); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_call); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_CLI); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_CLI); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -4390,24 +4535,24 @@ PyMODINIT_FUNC PyInit___main__(void)
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "spacy/__main__.py":135
+    /* "spacy/__main__.py":138
  * 
  * 
  * if __name__ == '__main__':             # <<<<<<<<<<<<<<
@@ -4710,21 +4855,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     result = __Pyx_PyObject_Call(func, args, NULL);
     Py_DECREF(args);
     return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
 #endif
 

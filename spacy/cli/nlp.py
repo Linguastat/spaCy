@@ -3,12 +3,13 @@ from __future__ import unicode_literals
 
 import platform
 from pathlib import Path
-import spacy
 
 from ..compat import unicode_
 from .. import about
 from .. import util
 
+#import spacy
+import spacy
 
 def nlp(sntnc=""):
     # lets parse a static sentence
@@ -16,6 +17,7 @@ def nlp(sntnc=""):
     #util.print_msg('Hello!  You are in the parse function.', 'Hello Title')
     
     # parse the sentence
-    nlp = spacy.load('en')
+    #nlp = spacy.load('en')
+    nlp = spacy.en.English()
     doc = nlp(sntnc)
     util.print_doc(doc)
