@@ -59,6 +59,8 @@ def print_doc(doc):
     #writer.writerow(['INDEX', 'START', 'TEXT', 'LEMMA', 'TAG', 'POS', 'ENTITY', 'DEP'])
     for word in doc:
         writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, word.dep_))
+    # complete with a newline row
+    writer.writerow('')
 
 def parse(sntnc):
     doc = nlp(sntnc)
