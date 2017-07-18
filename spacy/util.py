@@ -13,7 +13,7 @@ from .compat import basestring_, unicode_, input_
 
 LANGUAGES = {}
 _data_path = Path(__file__).parent / 'data'
-writer = csv.writer(sys.stdout, delimiter="\t")
+writer = csv.writer(sys.stdout, delimiter='\t')
 
 def set_lang_class(name, cls):
     global LANGUAGES
