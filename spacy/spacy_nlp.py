@@ -9,12 +9,16 @@ import logging
 from os import path
 import sys
 import plac
-import csv
+#import csv
+import unicodecsv as csv
 import spacy
+import codecs
 
 # initialize global
 nlp = spacy.en.English()
-writer = csv.writer(sys.stdout, delimiter="\t")
+#writer = csv.writer(codecs.getwriter("utf-8")(sys.stdout), delimiter="\t")
+writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
+#writer = csv.writer(sys.stdout, delimiter="\t")
 
 def transform_texts(batch_id, input_, out_dir):
     out_loc = path.join(out_dir, '%d.txt' % batch_id)
@@ -67,14 +71,32 @@ def parse(sntnc):
     return print_doc(doc)
 
 @plac.annotations(
-    interactive_mode=("Runs in interactive mode", "flag", "i")
+    interactive_mode=("Runs in interactive mode", "flag", "i"),
+    input_mode=("Runs using keyboard input functionality","flag", "k")
 )
-def main(interactive_mode):
+def main(interactive_mode, input_mode):
     if interactive_mode:
         try:
+            # instantiate stdin_stream that we may need depending on input_mode
+            sentence = None
+            stdin_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+
+            # loop until exited or killed
             while True:
-                sentence = input('')
+                if input_mode:
+                    #sys.stderr.write("Before keyboard mode input")
+                    #sys.stderr.flush()
+                    sentence = input('')
+                else:
+                    # pauses until input with newline
+                    sentence = stdin_stream.readline().rstrip()
+                    #sentence = sys.stdin.readline().rstrip()
+
+                # now process the sentence
                 parse(sentence)
+                # stdout buffer should be ready to go, so flush
+                sys.stdout.flush()
+
         except KeyboardInterrupt:
             print('spaCy interrupted!')
     else:
