@@ -71,10 +71,10 @@ def parse(sntnc):
     return print_doc(doc)
 
 @plac.annotations(
-    interactive_mode=("Runs in interactive mode", "flag", "i"),
-    input_mode=("Runs using keyboard input functionality","flag", "k")
+    interactive_mode=("Runs in interactive mode", "flag", "i")
+    #input_mode=("Runs using keyboard input functionality","flag", "k")
 )
-def main(interactive_mode, input_mode):
+def main(interactive_mode):
     if interactive_mode:
         try:
             # instantiate stdin_stream that we may need depending on input_mode
@@ -83,13 +83,13 @@ def main(interactive_mode, input_mode):
 
             # loop until exited or killed
             while True:
-                if input_mode:
+                #if input_mode:
                     #sys.stderr.write("Before keyboard mode input")
                     #sys.stderr.flush()
-                    sentence = input('')
-                else:
+                    #sentence = input('')
+                #else:
                     # pauses until input with newline
-                    sentence = stdin_stream.readline().rstrip()
+                sentence = stdin_stream.readline().rstrip()
                     #sentence = sys.stdin.readline().rstrip()
 
                 # now process the sentence
