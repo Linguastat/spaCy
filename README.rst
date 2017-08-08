@@ -295,7 +295,9 @@ Next, you have to build the package to create the binary.  Currently this binary
 .. code:: bash
 
     export PYTHONHOME=/path/to/folder/that/contains/binfolder/that/contains/python
-    gcc -v -Os -I path/to/env/python/include/python3.6m -L /path/to/python//lib -o bin/spacy spacy/main.c  -lpythonname3.X -lpthread -lm -lutil -ldl
+    
+    # insructions assume Python 3.6 is installed at ~/anaconda
+    gcc -v -Os -I ~/anaconda/include/python3.6m -L ~/anaconda/lib -o bin/spacy spacy/main.c  -lpython3.6m -lpthread -lm -lutil -ldl
 
 Ubuntu
 ------
