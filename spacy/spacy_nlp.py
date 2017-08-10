@@ -15,10 +15,8 @@ import spacy
 import codecs
 
 # initialize global
-nlp = spacy.en.English()
-#writer = csv.writer(codecs.getwriter("utf-8")(sys.stdout), delimiter="\t")
+nlp = spacy.load('en')
 writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
-#writer = csv.writer(sys.stdout, delimiter="\t")
 
 def transform_texts(batch_id, input_, out_dir):
     out_loc = path.join(out_dir, '%d.txt' % batch_id)
