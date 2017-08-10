@@ -12,11 +12,41 @@ import plac
 #import csv
 import unicodecsv as csv
 import spacy
+from spacy.symbols import *
 import codecs
+
 
 # initialize global
 nlp = spacy.load('en')
 writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
+
+#private class
+class Annot():
+    """Represent an annotation with start and stop values"""
+    def __init__(self, start, end, label):
+        self.start = start;
+        self.end = end;
+        self.label = label
+
+    def __str__(self):
+        return  's=' + str(self.start) + ' e=' + str(self.end) + ' l=' + str(self.label)
+
+#define functions
+def get_np_iob(index, np4iob):
+    if index in np4iob:
+        ann = np4iob.get(index)
+        if ann.start == ann.end:
+            return 'S'
+        elif ann.start == index:
+            return 'B'
+        elif index > ann.start and index < ann.end:
+            return 'I'
+        elif index == ann.end:
+            return 'E'
+        else:
+            return 'O'
+    else:
+        return 'O'
 
 def transform_texts(batch_id, input_, out_dir):
     out_loc = path.join(out_dir, '%d.txt' % batch_id)
@@ -57,12 +87,35 @@ def print_doc(doc):
     """
     Print formatted document. 
     """
+    np4iob = {}
+    
+    #add noun chunks in IOB format
+    #looking for noun phrases
+    np_labels = set([nsubj, nsubjpass, dobj, iobj, pobj]) # Probably others too
+
+
+    #load dictionary with annotations
+    for word in doc:
+    	if word.dep in np_labels:
+            #yield word.subtree
+            subtree_span = doc[word.left_edge.i : word.right_edge.i + 1]
+            #if key not in np4iob
+
+            a = Annot(word.left_edge.i, word.right_edge.i, 'NP')
+            for s in range(word.left_edge.i, word.right_edge.i + 1):
+            	if s not in np4iob:
+                    np4iob[s] = a
+                    #print(word.text, '|', subtree_span.text, '|', subtree_span.root.text, '|', word.left_edge, '|', word.left_edge.i, '|', word.right_edge, '|', word.right_edge.i)
+
+
     # header
     #writer.writerow(['INDEX', 'START', 'TEXT', 'LEMMA', 'TAG', 'POS', 'ENTITY', 'HEAD IDX', DEP'])
     for word in doc:
-        writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, str(word.head.i), word.dep_))
+	#        writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, str(word.head.i), word.dep_))
+        writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, word.ent_iob_, get_np_iob(word.i, np4iob), str(word.head.i), word.dep_))
     # complete with a newline row
     writer.writerow('')
+
 
 def parse(sntnc):
     doc = nlp(sntnc)
