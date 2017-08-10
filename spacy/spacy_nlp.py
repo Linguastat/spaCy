@@ -96,14 +96,14 @@ def print_doc(doc):
 
     #load dictionary with annotations
     for word in doc:
-    	if word.dep in np_labels:
+        if word.dep in np_labels:
             #yield word.subtree
             subtree_span = doc[word.left_edge.i : word.right_edge.i + 1]
             #if key not in np4iob
 
             a = Annot(word.left_edge.i, word.right_edge.i, 'NP')
             for s in range(word.left_edge.i, word.right_edge.i + 1):
-            	if s not in np4iob:
+                if s not in np4iob:
                     np4iob[s] = a
                     #print(word.text, '|', subtree_span.text, '|', subtree_span.root.text, '|', word.left_edge, '|', word.left_edge.i, '|', word.right_edge, '|', word.right_edge.i)
 
