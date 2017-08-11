@@ -36,13 +36,13 @@ def get_np_iob(index, np4iob):
     if index in np4iob:
         ann = np4iob.get(index)
         if ann.start == ann.end:
-            return 'S'
+            return 'U'
         elif ann.start == index:
             return 'B'
         elif index > ann.start and index < ann.end:
             return 'I'
         elif index == ann.end:
-            return 'E'
+            return 'L'
         else:
             return 'O'
     else:
