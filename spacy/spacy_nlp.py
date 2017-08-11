@@ -9,9 +9,9 @@ import logging
 from os import path
 import sys
 import plac
-#import csv
 import unicodecsv as csv
 import spacy
+from spacy.tokens.doc import Doc
 from spacy.symbols import *
 import codecs
 
@@ -47,19 +47,6 @@ def get_np_iob(index, np4iob):
             return 'O'
     else:
         return 'O'
-
-def transform_texts(batch_id, input_, out_dir):
-    out_loc = path.join(out_dir, '%d.txt' % batch_id)
-    if path.exists(out_loc):
-        return None
-    print('Batch', batch_id)
-    nlp = spacy.en.English(parser=False, entity=False)
-    with io.open(out_loc, 'w', encoding='utf8') as file_:
-        for text in input_:
-            doc = nlp(text)
-            file_.write(' '.join(represent_word(w) for w in doc if not w.is_space))
-            file_.write('\n')
-
 
 def represent_word(word):
     text = word.text
@@ -112,20 +99,30 @@ def print_doc(doc):
     #writer.writerow(['INDEX', 'START', 'TEXT', 'LEMMA', 'TAG', 'POS', 'ENTITY', 'HEAD IDX', DEP'])
     for word in doc:
         #writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, str(word.head.i), word.dep_))
-        writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, word.ent_iob_, get_np_iob(word.i, np4iob), str(word.head.i), word.dep_))
+        writer.writerow((str(word.i), str(word.idx), word.text, word.lemma_, word.tag_, word.pos_, word.ent_type_, word.ent_iob_, 
+            get_np_iob(word.i, np4iob), str(word.head.i), word.dep_))
     # complete with a newline row
     writer.writerow('')
 
 
-def parse(sntnc):
-    doc = nlp(sntnc)
+def parse(sntnc, tokenized):
+    # if it's tokenized, split the string by space and convert to a list for input
+
+    if tokenized:
+        doc = Doc(nlp.vocab, words=sntnc.split(" "))
+        nlp.tagger(doc)
+        nlp.parser(doc)
+        nlp.entity(doc)
+    else:
+        doc = nlp(sntnc)
+
     return print_doc(doc)
 
 @plac.annotations(
-    interactive_mode=("Runs in interactive mode", "flag", "i")
-    #input_mode=("Runs using keyboard input functionality","flag", "k")
+    interactive_mode=("Runs in interactive mode", "flag", "i"),
+    tokenized=("Indicates input is pre-tokenized and delimited space character","flag", "usrtokens")
 )
-def main(interactive_mode):
+def main(interactive_mode, tokenized):
     if interactive_mode:
         try:
             # instantiate stdin_stream that we may need depending on input_mode
@@ -144,7 +141,7 @@ def main(interactive_mode):
                     #sentence = sys.stdin.readline().rstrip()
 
                 # now process the sentence
-                parse(sentence)
+                parse(sentence, tokenized)
                 # stdout buffer should be ready to go, so flush
                 sys.stdout.flush()
 
