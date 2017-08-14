@@ -1,24 +1,20 @@
 """
 Print part-of-speech tagged, true-cased, (very roughly) sentence-separated
 text, with each "sentence" on a newline, and spaces between tokens. Supports
-multi-processing.
+multi-processing.  Note:  This script will only run in Python 3.
 """
 from __future__ import print_function, unicode_literals, division
 import io
 import logging
 from os import path
 import sys
-import plac
+#import plac
+import argparse
 import unicodecsv as csv
 import spacy
 from spacy.tokens.doc import Doc
 from spacy.symbols import *
 import codecs
-
-
-# initialize global
-nlp = spacy.load('en')
-writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
 
 #private class
 class Annot():
@@ -70,7 +66,7 @@ def is_sent_begin(word):
     else:
         return False
 
-def print_doc(doc):
+def print_doc(doc, writer):
     """
     Print formatted document. 
     """
@@ -105,8 +101,9 @@ def print_doc(doc):
     writer.writerow('')
 
 
-def parse(sntnc, tokenized):
+def parse(sntnc, nlp, tokenized=False):
     # if it's tokenized, split the string by space and convert to a list for input
+    doc = None
 
     if tokenized:
         doc = Doc(nlp.vocab, words=sntnc.split(" "))
@@ -116,13 +113,12 @@ def parse(sntnc, tokenized):
     else:
         doc = nlp(sntnc)
 
-    return print_doc(doc)
+    return doc
 
-@plac.annotations(
-    interactive_mode=("Runs in interactive mode", "flag", "i"),
-    tokenized=("Indicates input is pre-tokenized and delimited space character","flag", "usrtokens")
-)
 def main(interactive_mode, tokenized):
+    nlp = spacy.load('en')
+    writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
+
     if interactive_mode:
         try:
             # instantiate stdin_stream that we may need depending on input_mode
@@ -140,8 +136,9 @@ def main(interactive_mode, tokenized):
                 sentence = stdin_stream.readline().rstrip()
                     #sentence = sys.stdin.readline().rstrip()
 
-                # now process the sentence
-                parse(sentence, tokenized)
+                # now process and print the sentence
+                doc = parse(sentence, nlp, tokenized)
+                print_doc(doc, writer)
                 # stdout buffer should be ready to go, so flush
                 sys.stdout.flush()
 
@@ -151,5 +148,12 @@ def main(interactive_mode, tokenized):
         print("Interactive Mode not selected.")
 
 if __name__ == '__main__':
-    plac.call(main)
+    # initalize the parser
+    parser = argparse.ArgumentParser(description='Parse and tag text using Voise customized tabular output.')
+    parser.add_argument("-i", "--interactive", action="store_true", help="Run spaCy in interactive mode instead of \"one and done\".")
+    parser.add_argument("-t", "--usrtokens", action="store_true", help="Input pre-tokenized text to spaCy with a space delimiter.")
+    args = parser.parse_args()
+
+    # pass along the arguments as booleans
+    main(args.interactive, args.usrtokens)
 
