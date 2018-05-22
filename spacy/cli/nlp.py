@@ -17,7 +17,7 @@ def nlp(sntnc=""):
     #util.print_msg('Hello!  You are in the parse function.', 'Hello Title')
     
     # parse the sentence
-    #nlp = spacy.load('en')
-    nlp = spacy.en.English()
+    nlp = spacy.load('en')
+    #nlp = spacy.en.English()
     doc = nlp(sntnc)
     util.print_doc(doc)
