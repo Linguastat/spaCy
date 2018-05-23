@@ -262,8 +262,12 @@ details.
 
     venv .env
     source .env/bin/activate
+    # This export add this directory so that if spacy is imported, it knows where to look
     export PYTHONPATH=`pwd`
     pip install -r requirements.txt
+    
+    # This setup creates the required files but DOES NOT install it into python as an egg.  The PYTHONPATH above
+    # allows spacy to imported and ran.
     python setup.py build_ext --inplace
 
 Compared to regular install via pip, `requirements.txt <requirements.txt>`_
