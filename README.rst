@@ -272,6 +272,9 @@ details.
     # This setup creates the required files but DOES NOT install it into python as an egg.  The PYTHONPATH above
     # allows spacy to imported and ran.
     python setup.py build_ext --inplace
+    
+    # Now load a model (english as an example)
+    python -m spacy download en
 
 Compared to regular install via pip, `requirements.txt <requirements.txt>`_
 additionally installs developer dependencies such as Cython. For more details
