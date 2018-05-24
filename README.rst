@@ -311,14 +311,14 @@ First, you have to use Cython to compile the main class to a cpp file.  I remove
 
 .. code:: bash
 
-    cython --embed -o spacy/main.c spacy/__main__.py
+    cython --embed -o spacy/spacy_nlp.c spacy/spacy_nlp.py
 
 Next, you have to build the package to create the binary.  Currently this binary will need to dynamically link to pylib in your python installation wherever it runs.
 
 .. code:: bash
     
-    # insructions assume Python 3.6 is installed at ~/anaconda
-    gcc -v -Os -I ~/anaconda/include/python3.6m -L ~/anaconda/lib -o bin/spacy spacy/main.c  -lpython3.6m -lpthread -lm -lutil -ldl
+    # these insructions assume Python 3.6 is installed at ~/anaconda, change paths as necessary
+    gcc -v -Os -I ~/anaconda/include/python3.6m -L ~/anaconda/lib -o bin/spacy_nlp spacy/spacy_nlp.c  -lpython3.6m -lpthread -lm -lutil -ldl
 
 
 Ubuntu
