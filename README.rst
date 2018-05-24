@@ -262,8 +262,12 @@ details.
 
     venv .env
     source .env/bin/activate
+    # This export add this directory so that if spacy is imported, it knows where to look
     export PYTHONPATH=`pwd`
     pip install -r requirements.txt
+    
+    # This setup creates the required files but DOES NOT install it into python as an egg.  The PYTHONPATH above
+    # allows spacy to imported and ran.
     python setup.py build_ext --inplace
 
 Compared to regular install via pip, `requirements.txt <requirements.txt>`_
@@ -312,8 +316,6 @@ First, you have to use Cython to compile the main class to a cpp file.  I remove
 Next, you have to build the package to create the binary.  Currently this binary will need to dynamically link to pylib in your python installation wherever it runs.
 
 .. code:: bash
-
-    export PYTHONHOME=/path/to/folder/that/contains/binfolder/that/contains/python
     
     # insructions assume Python 3.6 is installed at ~/anaconda
     gcc -v -Os -I ~/anaconda/include/python3.6m -L ~/anaconda/lib -o bin/spacy spacy/main.c  -lpython3.6m -lpthread -lm -lutil -ldl
