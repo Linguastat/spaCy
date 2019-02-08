@@ -115,11 +115,18 @@ def parse(sntnc, nlp, tokenized=False):
 
     return doc
 
-def main(interactive_mode, tokenized):
-    nlp = spacy.load('en')
-    writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
+def main(interactive_mode, modelname, tokenized, version):
+    #print(interactive_mode)
+    #print(modelname)
+    #print(tokenized)
+    #print(version)
+    if version:
+        print('help us!')
 
-    if interactive_mode:
+    elif interactive_mode:
+        # load the model and link the buffer
+        nlp = spacy.load(modelname)
+        writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
         try:
             # instantiate stdin_stream that we may need depending on input_mode
             sentence = None
@@ -127,14 +134,8 @@ def main(interactive_mode, tokenized):
 
             # loop until exited or killed
             while True:
-                #if input_mode:
-                    #sys.stderr.write("Before keyboard mode input")
-                    #sys.stderr.flush()
-                    #sentence = input('')
-                #else:
-                    # pauses until input with newline
+                # read the sentence stream
                 sentence = stdin_stream.readline().rstrip()
-                    #sentence = sys.stdin.readline().rstrip()
 
                 # now process and print the sentence
                 doc = parse(sentence, nlp, tokenized)
@@ -145,15 +146,16 @@ def main(interactive_mode, tokenized):
         except KeyboardInterrupt:
             print('spaCy interrupted!')
     else:
-        print("Interactive Mode not selected.")
+        print("Interactive Mode or Version information request not selected.")
 
 if __name__ == '__main__':
     # initalize the parser
     parser = argparse.ArgumentParser(description='Parse and tag text using Voise customized tabular output.')
     parser.add_argument("-i", "--interactive", action="store_true", help="Run spaCy in interactive mode instead of \"one and done\".")
-    parser.add_argument("-t", "--usrtokens", action="store_true", help="Input pre-tokenized text to spaCy with a space delimiter.")
+    parser.add_argument("-m", "--modelname", action="store_const", const=str, default="en_core_web_sm", help="Load previously pip installed model with specified package name.")
+    parser.add_argument("-t", "--usrtokens", action="store_true", help="Pre-tokenized mode where input is text with a space delimiter.")
+    parser.add_argument("-v", "--version", action="store_true", help="Print spaCy and model versioning information.")
     args = parser.parse_args()
 
     # pass along the arguments as booleans
-    main(args.interactive, args.usrtokens)
-
+    main(args.interactive, args.modelname, args.usrtokens, args.version)
