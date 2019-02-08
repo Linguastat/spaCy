@@ -52,7 +52,7 @@ p
 
 +code(false, "bash").
     wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/word-vectors-v2/cc.la.300.vec.gz
-    python -m spacy init-model /tmp/la_vectors_wiki_lg --vectors-loc cc.la.300.vec.gz
+    python -m spacy init-model en /tmp/la_vectors_wiki_lg --vectors-loc cc.la.300.vec.gz
 
 p
     |  This will output a spaCy model in the directory
@@ -62,8 +62,8 @@ p
 
 +code.
     nlp_latin = spacy.load('/tmp/la_vectors_wiki_lg')
-    doc1 = nlp(u"Caecilius est in horto")
-    doc2 = nlp(u"servus est in atrio")
+    doc1 = nlp_latin(u"Caecilius est in horto")
+    doc2 = nlp_latin(u"servus est in atrio")
     doc1.similarity(doc2)
 
 p

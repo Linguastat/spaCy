@@ -5,6 +5,7 @@ from ..util import get_doc
 from ...tokens import Doc
 from ...vocab import Vocab
 from ...attrs import LEMMA
+from ...tokens import Span
 
 import pytest
 import numpy
@@ -156,6 +157,23 @@ def test_doc_api_merge(en_tokenizer):
     assert doc[7].text == 'all night'
     assert doc[7].text_with_ws == 'all night'
 
+    # merge both with bulk merge
+    doc = en_tokenizer(text)
+    assert len(doc) == 9
+    with doc.retokenize() as retokenizer:
+        retokenizer.merge(doc[4: 7], attrs={'tag':'NAMED', 'lemma':'LEMMA',
+              'ent_type':'TYPE'})
+        retokenizer.merge(doc[7: 9], attrs={'tag':'NAMED', 'lemma':'LEMMA',
+              'ent_type':'TYPE'})
+
+    assert len(doc) == 6
+    assert doc[4].text == 'the beach boys'
+    assert doc[4].text_with_ws == 'the beach boys '
+    assert doc[4].tag_ == 'NAMED'
+    assert doc[5].text == 'all night'
+    assert doc[5].text_with_ws == 'all night'
+    assert doc[5].tag_ == 'NAMED'
+
 
 def test_doc_api_merge_children(en_tokenizer):
     """Test that attachments work correctly after merging."""
@@ -260,10 +278,30 @@ def test_doc_api_similarity_match():
     assert doc.similarity(doc2) == 0.0
 
 
-def test_lowest_common_ancestor(en_tokenizer):
-    tokens = en_tokenizer('the lazy dog slept')
-    doc = get_doc(tokens.vocab, [t.text for t in tokens], heads=[2, 1, 1, 0])
+@pytest.mark.parametrize('sentence,heads,lca_matrix', [
+    ('the lazy dog slept',
+     [2, 1, 1, 0],
+     numpy.array([[0, 2, 2, 3],
+                  [2, 1, 2, 3],
+                  [2, 2, 2, 3],
+                  [3, 3, 3, 3]])),
+    ('The lazy dog slept. The quick fox jumped',
+     [2, 1, 1, 0, -1, 2, 1, 1, 0],
+     numpy.array([[0, 2, 2, 3, 3, -1, -1, -1, -1],
+                  [2, 1, 2, 3, 3, -1, -1, -1, -1],
+                  [2, 2, 2, 3, 3, -1, -1, -1, -1],
+                  [3, 3, 3, 3, 3, -1, -1, -1, -1],
+                  [3, 3, 3, 3, 4, -1, -1, -1, -1],
+                  [-1, -1, -1, -1, -1, 5, 7, 7, 8],
+                  [-1, -1, -1, -1, -1, 7, 6, 7, 8],
+                  [-1, -1, -1, -1, -1, 7, 7, 7, 8],
+                  [-1, -1, -1, -1, -1, 8, 8, 8, 8]]))
+])
+def test_lowest_common_ancestor(en_tokenizer, sentence, heads, lca_matrix):
+    tokens = en_tokenizer(sentence)
+    doc = get_doc(tokens.vocab, [t.text for t in tokens], heads=heads)
     lca = doc.get_lca_matrix()
+    assert (lca == lca_matrix).all()
     assert(lca[1, 1] == 1)
     assert(lca[0, 1] == 2)
     assert(lca[1, 2] == 2)

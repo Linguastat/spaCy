@@ -10,6 +10,7 @@ export default function(repo) {
         'CC BY-SA 4.0':    'https://creativecommons.org/licenses/by-sa/4.0/',
         'CC BY-NC':        'https://creativecommons.org/licenses/by-nc/3.0/',
         'CC BY-NC 3.0':    'https://creativecommons.org/licenses/by-nc/3.0/',
+        'CC BY-NC 4.0':    'https://creativecommons.org/licenses/by-nc/4.0/',
         'CC-BY-NC-SA 3.0': 'https://creativecommons.org/licenses/by-nc-sa/3.0/',
         'GPL':             'https://www.gnu.org/licenses/gpl.html',
         'LGPL':            'https://www.gnu.org/licenses/lgpl.html',
@@ -33,8 +34,8 @@ export default function(repo) {
                     version: 'n/a',
                     notes: null,
                     sizeFull: null,
+                    fullName: null,
                     pipeline: null,
-                    releaseUrl: null,
                     description: null,
                     license: null,
                     author: null,
@@ -57,10 +58,14 @@ export default function(repo) {
                     },
                     orderedCompat() {
                         return Object.keys(this.compat)
-                            .filter(v => !v.includes('a') && !v.includes('dev') && !v.includes('rc'));
+                            .filter(v => this.$_isStableVersion(v));
                     },
                     hasAccuracy() {
                         return this.uas || this.las || this.tags_acc || this.ents_f || this.ents_p || this.ents_r;
+                    },
+                    releaseUrl() {
+                        const baseUrl = `${this.repo}/releases`;
+                        return `${baseUrl}/${this.fullName ? `/tag/${this.fullName}` : ''}`
                     }
                 },
                 beforeMount() {
@@ -78,9 +83,8 @@ export default function(repo) {
                 },
                 methods: {
                     $_updateData(data) {
-                        const fullName = `${data.lang}_${data.name}-${data.version}`;
+                        this.fullName = `${data.lang}_${data.name}-${data.version}`;
                         this.version = data.version;
-                        this.releaseUrl = `${this.repo}/releases/tag/${fullName}`;
                         this.sizeFull = data.size;
                         this.pipeline = data.pipeline;
                         this.notes = data.notes;
@@ -98,8 +102,8 @@ export default function(repo) {
                     },
 
                     $_getLatestVersion(modelId) {
-                        for (let [spacy_v, models] of Object.entries(this.compat)) {
-                            if (models[modelId]) {
+                        for (let [version, models] of Object.entries(this.compat)) {
+                            if (this.$_isStableVersion(version) && models[modelId]) {
                                 return models[modelId][0];
                             }
                         }
@@ -116,6 +120,14 @@ export default function(repo) {
                         const nKeys = this.$_abbrNum(keys);
                         const nVectors = this.$_abbrNum(vectors);
                         return `${nKeys} keys, ${nVectors} unique vectors (${width} dimensions)`;
+                    },
+
+                    /**
+                     * Hacky check if a version number is stable and not alpha,
+                     * dev or a release candidate
+                     */
+                    $_isStableVersion(v) {
+                        return !v.includes('a') && !v.includes('b') && !v.includes('dev') && !v.includes('rc');
                     },
 
                     /**

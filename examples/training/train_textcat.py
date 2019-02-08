@@ -25,6 +25,11 @@ from spacy.util import minibatch, compounding
     n_texts=("Number of texts to train from", "option", "t", int),
     n_iter=("Number of training iterations", "option", "n", int))
 def main(model=None, output_dir=None, n_iter=20, n_texts=2000):
+    if output_dir is not None:
+        output_dir = Path(output_dir)
+        if not output_dir.exists():
+            output_dir.mkdir()
+
     if model is not None:
         nlp = spacy.load(model)  # load existing spaCy model
         print("Loaded model '%s'" % model)
@@ -79,10 +84,8 @@ def main(model=None, output_dir=None, n_iter=20, n_texts=2000):
     print(test_text, doc.cats)
 
     if output_dir is not None:
-        output_dir = Path(output_dir)
-        if not output_dir.exists():
-            output_dir.mkdir()
-        nlp.to_disk(output_dir)
+        with nlp.use_params(optimizer.averages):
+            nlp.to_disk(output_dir)
         print("Saved model to", output_dir)
 
         # test the saved model
@@ -106,10 +109,10 @@ def load_data(limit=0, split=0.8):
 
 def evaluate(tokenizer, textcat, texts, cats):
     docs = (tokenizer(text) for text in texts)
-    tp = 1e-8  # True positives
+    tp = 0.0   # True positives
     fp = 1e-8  # False positives
     fn = 1e-8  # False negatives
-    tn = 1e-8  # True negatives
+    tn = 0.0   # True negatives
     for i, doc in enumerate(textcat.pipe(docs)):
         gold = cats[i]
         for label, score in doc.cats.items():

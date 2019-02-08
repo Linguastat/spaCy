@@ -16,10 +16,17 @@ _latin = r'[[\p{Ll}||\p{Lu}]&&\p{Latin}]'
 _persian = r'[\p{L}&&\p{Arabic}]'
 _russian_lower = r'[ёа-я]'
 _russian_upper = r'[ЁА-Я]'
+_sinhala = r'[\p{L}&&\p{Sinhala}]'
+_tatar_lower = r'[әөүҗңһ]'
+_tatar_upper = r'[ӘӨҮҖҢҺ]'
+_greek_lower = r'[α-ωάέίόώήύ]'
+_greek_upper = r'[Α-ΩΆΈΊΌΏΉΎ]'
+_ukrainian_lower = r'[а-щюяіїєґ]'
+_ukrainian_upper = r'[А-ЩЮЯІЇЄҐ]'
 
-_upper = [_latin_upper, _russian_upper]
-_lower = [_latin_lower, _russian_lower]
-_uncased = [_bengali, _hebrew, _persian]
+_upper = [_latin_upper, _russian_upper, _tatar_upper, _greek_upper, _ukrainian_upper]
+_lower = [_latin_lower, _russian_lower, _tatar_lower, _greek_lower, _ukrainian_lower]
+_uncased = [_bengali, _hebrew, _persian, _sinhala]
 
 ALPHA = merge_char_classes(_upper + _lower + _uncased)
 ALPHA_LOWER = merge_char_classes(_lower + _uncased)
@@ -30,7 +37,7 @@ _units = ('km km² km³ m m² m³ dm dm² dm³ cm cm² cm³ mm mm² mm³ ha µm 
           'TB T G M K % км км² км³ м м² м³ дм дм² дм³ см см² см³ мм мм² мм³ нм '
           'кг г мг м/с км/ч кПа Па мбар Кб КБ кб Мб МБ мб Гб ГБ гб Тб ТБ тб'
           'كم كم² كم³ م م² م³ سم سم² سم³ مم مم² مم³ كم غرام جرام جم كغ ملغ كوب اكواب')
-_currency = r'\$ £ € ¥ ฿ US\$ C\$ A\$ ₽ ﷼'
+_currency = r'\$ £ € ¥ ฿ US\$ C\$ A\$ ₽ ﷼ ₴'
 
 # These expressions contain various unicode variations, including characters
 # used in Chinese (see #1333, #1340, #1351) – unless there are cross-language

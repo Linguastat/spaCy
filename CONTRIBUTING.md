@@ -26,7 +26,7 @@ also check the [troubleshooting guide](https://spacy.io/usage/#troubleshooting)
 to see if your problem is already listed there.
 
 If you're looking for help with your code, consider posting a question on
-[StackOverflow](http://stackoverflow.com/questions/tagged/spacy) instead. If you
+[Stack Overflow](http://stackoverflow.com/questions/tagged/spacy) instead. If you
 tag it `spacy` and `python`, more people will see it and hopefully be able to
 help. Please understand that we won't be able to provide individual support via
 email. We also believe that help is much more valuable if it's **shared publicly**,
@@ -138,11 +138,11 @@ files, a compiler, [pip](https://pip.pypa.io/en/latest/installing/),
 [git](https://git-scm.com) installed. The compiler is usually the trickiest part.
 
 ```
-python -m pip install -U pip venv
+python -m pip install -U pip
 git clone https://github.com/explosion/spaCy
 cd spaCy
 
-venv .env
+python -m venv .env
 source .env/bin/activate
 export PYTHONPATH=`pwd`
 pip install -r requirements.txt
