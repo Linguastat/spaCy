@@ -42,6 +42,7 @@ MOD_NAMES = [
     'spacy.syntax.ner',
     'spacy.symbols',
     'spacy.vectors',
+    'spacy.spacy_nlp'
 ]
 
 
