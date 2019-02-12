@@ -15,6 +15,11 @@ import spacy
 from spacy.tokens.doc import Doc
 from spacy.symbols import *
 import codecs
+import platform
+#from compat import path2str
+from pathlib import Path
+import spacy.about as about
+import spacy.compat as compat
 
 #private class
 class Annot():
@@ -120,13 +125,21 @@ def main(interactive_mode, modelname, tokenized, version):
     #print(modelname)
     #print(tokenized)
     #print(version)
-    if version:
-        print('help us!')
 
+    # load information map
+    data = {'spaCy version': about.__version__,
+            #'Location': compat.path2str(Path(__file__).parent.parent),
+            'Platform': platform.platform(),
+            'Python version': platform.python_version(),
+            'Model Selected': modelname}
+    # attempt to load the passed or default model before any parameters are acted upon
+    nlp = spacy.load(modelname)
+
+    # process the parameters
+    if version:
+        print(data)
     elif interactive_mode:
-        # load the model and link the buffer
-        nlp = spacy.load(modelname)
-        print(modelname + " model has loaded.")
+        # link the stdout buffer
         writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
         try:
             # instantiate stdin_stream that we may need depending on input_mode
