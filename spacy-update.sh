@@ -28,7 +28,7 @@ PYMAJOR=($(python -c "import sys; print(sys.version_info.major)"))
 PYMINOR=($(python -c "import sys; print(sys.version_info.minor)"))
 
 # move to spaCy and pull the latest 
-cd ~/spaCy
+cd $SPACYHOME
 # clone spaCy repo
 git fetch origin
 git checkout spacy2merge
