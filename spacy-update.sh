@@ -33,7 +33,7 @@ python setup.py build_ext --inplace
 #python -m spacy download en_core_web_md
 # install our models
 
-# create the cpp files with cython
+# create the cppd files with cython
 cython --embed -o spacy/spacy_nlp.cpp spacy/spacy_nlp.py
 # build the binary wrapper
 gcc -v -Os -I ${CONDAHOME}/include/python${PYMAJOR}.${PYMINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PYMAJOR}.${PYMINOR}m -lpthread -lm -lutil -ldl
