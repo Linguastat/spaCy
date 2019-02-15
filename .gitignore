@@ -4,6 +4,9 @@ corpora/
 /models/
 keys/
 
+# architecture specific binary
+bin/spacy_nlp
+
 # Website
 website/www/
 website/_deploy.sh
