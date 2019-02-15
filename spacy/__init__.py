@@ -1,5 +1,11 @@
 # coding: utf8
 from __future__ import unicode_literals
+import warnings
+warnings.filterwarnings("ignore", message="numpy.dtype size changed")
+warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
+
+# These are imported as part of the API
+from thinc.neural.util import prefer_gpu, require_gpu
 
 from .cli.info import info as cli_info
 from .glossary import explain
@@ -20,5 +26,5 @@ def blank(name, **kwargs):
     return LangClass(**kwargs)
 
 
-def info(model=None, markdown=False):
-    return cli_info(model, markdown)
+def info(model=None, markdown=False, silent=False):
+    return cli_info(model, markdown, silent)

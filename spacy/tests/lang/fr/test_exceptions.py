@@ -3,10 +3,15 @@
 from __future__ import unicode_literals
 
 import pytest
+from .... import util
+
+@pytest.fixture(scope='module')
+def fr_tokenizer():
+    return util.get_lang_class('fr').Defaults.create_tokenizer()
 
 
 @pytest.mark.parametrize('text', ["aujourd'hui", "Aujourd'hui", "prud'hommes",
-                                  "prud’hommal"])
+                                  "prud’hommal", "entr'amis"])
 def test_tokenizer_infix_exceptions(fr_tokenizer, text):
     tokens = fr_tokenizer(text)
     assert len(tokens) == 1

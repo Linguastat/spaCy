@@ -15,6 +15,11 @@ import spacy
 from spacy.tokens.doc import Doc
 from spacy.symbols import *
 import codecs
+import platform
+#from compat import path2str
+from pathlib import Path
+import spacy.about as about
+import spacy.compat as compat
 
 #private class
 class Annot():
@@ -120,12 +125,21 @@ def main(interactive_mode, modelname, tokenized, version):
     #print(modelname)
     #print(tokenized)
     #print(version)
-    if version:
-        print('help us!')
 
+    # load information map
+    data = {'spaCy version': about.__version__,
+            #'Location': compat.path2str(Path(__file__).parent.parent),
+            'Platform': platform.platform(),
+            'Python version': platform.python_version(),
+            'Model Selected': modelname}
+    # attempt to load the passed or default model before any parameters are acted upon
+    nlp = spacy.load(modelname)
+
+    # process the parameters
+    if version:
+        print(data)
     elif interactive_mode:
-        # load the model and link the buffer
-        nlp = spacy.load(modelname)
+        # link the stdout buffer
         writer = csv.writer(sys.stdout.buffer, delimiter="\t", encoding="utf-8")
         try:
             # instantiate stdin_stream that we may need depending on input_mode
@@ -152,7 +166,7 @@ if __name__ == '__main__':
     # initalize the parser
     parser = argparse.ArgumentParser(description='Parse and tag text using Voise customized tabular output.')
     parser.add_argument("-i", "--interactive", action="store_true", help="Run spaCy in interactive mode instead of \"one and done\".")
-    parser.add_argument("-m", "--modelname", action="store_const", const=str, default="en_core_web_sm", help="Load previously pip installed model with specified package name.")
+    parser.add_argument("-m", "--modelname", default="en_core_web_sm", help="Load previously pip installed model with specified package name.")
     parser.add_argument("-t", "--usrtokens", action="store_true", help="Pre-tokenized mode where input is text with a space delimiter.")
     parser.add_argument("-v", "--version", action="store_true", help="Print spaCy and model versioning information.")
     args = parser.parse_args()

@@ -1,9 +1,11 @@
 # coding: utf8
 from __future__ import unicode_literals
 
+import uuid
+
 from .templates import TPL_DEP_SVG, TPL_DEP_WORDS, TPL_DEP_ARCS
 from .templates import TPL_ENT, TPL_ENTS, TPL_FIGURE, TPL_TITLE, TPL_PAGE
-from ..util import minify_html
+from ..util import minify_html, escape_html
 
 
 class DependencyRenderer(object):
@@ -38,7 +40,10 @@ class DependencyRenderer(object):
         minify (bool): Minify HTML markup.
         RETURNS (unicode): Rendered SVG or HTML markup.
         """
-        rendered = [self.render_svg(i, p['words'], p['arcs'])
+        # Create a random ID prefix to make sure parses don't receive the
+        # same ID, even if they're identical
+        id_prefix = uuid.uuid4().hex
+        rendered = [self.render_svg('{}-{}'.format(id_prefix, i), p['words'], p['arcs'])
                     for i, p in enumerate(parsed)]
         if page:
             content = ''.join([TPL_FIGURE.format(content=svg)
@@ -84,7 +89,9 @@ class DependencyRenderer(object):
         """
         y = self.offset_y+self.word_spacing
         x = self.offset_x+i*self.distance
-        return TPL_DEP_WORDS.format(text=text, tag=tag, x=x, y=y)
+        html_text = escape_html(text)
+        return TPL_DEP_WORDS.format(text=html_text, tag=tag, x=x, y=y)
+
 
     def render_arrow(self, label, start, end, direction, i):
         """Render indivicual arrow.
@@ -134,7 +141,7 @@ class DependencyRenderer(object):
         end (int): X-coordinate of arrow end point.
         RETURNS (unicode): Definition of the arrow head path ('d' attribute).
         """
-        if direction is 'left':
+        if direction == 'left':
             pos1, pos2, pos3 = (x, x-self.arrow_width+2, x+self.arrow_width-2)
         else:
             pos1, pos2, pos3 = (end, end+self.arrow_width-2,

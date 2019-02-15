@@ -1,3 +1,4 @@
+
 //- 💫 DOCS > API > TOKEN
 
 include ../_includes/_mixins
@@ -153,6 +154,31 @@ p Check whether an extension has been registered on the #[code Token] class.
         +cell returns
         +cell bool
         +cell Whether the extension has been registered.
+
++h(2, "remove_extension") Token.remove_extension
+    +tag classmethod
+    +tag-new("2.0.11")
+
+p Remove a previously registered extension.
+
++aside-code("Example").
+    from spacy.tokens import Token
+    Token.set_extension('is_fruit', default=False)
+    removed = Token.remove_extension('is_fruit')
+    assert not Token.has_extension('is_fruit')
+
++table(["Name", "Type", "Description"])
+    +row
+        +cell #[code name]
+        +cell unicode
+        +cell Name of the extension.
+
+    +row("foot")
+        +cell returns
+        +cell tuple
+        +cell
+            |  A #[code.u-break (default, method, getter, setter)] tuple of the
+            |  removed extension.
 
 +h(2, "check_flag") Token.check_flag
     +tag method
@@ -380,7 +406,7 @@ p
     +tag property
     +tag-model("parse")
 
-p A sequence of all the token's syntactic descendents.
+p A sequence containing the token and all the token's syntactic descendants.
 
 +aside-code("Example").
     doc = nlp(u'Give it back! He pleaded.')
@@ -391,7 +417,7 @@ p A sequence of all the token's syntactic descendents.
     +row("foot")
         +cell yields
         +cell #[code Token]
-        +cell A descendant token such that #[code self.is_ancestor(descendant)].
+        +cell A descendant token such that #[code self.is_ancestor(token) or token == self].
 
 +h(2, "is_sent_start") Token.is_sent_start
     +tag property
@@ -485,6 +511,17 @@ p The L2 norm of the token's vector representation.
 
 +table(["Name", "Type", "Description"])
     +row
+        +cell #[code doc]
+        +cell #[code Doc]
+        +cell The parent document.
+
+    +row
+        +cell #[code sent]
+            +tag-new("2.0.12")
+        +cell #[code Span]
+        +cell The sentence span that this token is a part of.
+
+    +row
         +cell #[code text]
         +cell unicode
         +cell Verbatim text content.
@@ -508,7 +545,7 @@ p The L2 norm of the token's vector representation.
         +cell #[code orth_]
         +cell unicode
         +cell
-            |  Verbatim text content (identical to #[code Token.text]). Existst
+            |  Verbatim text content (identical to #[code Token.text]). Exists
             |  mostly for consistency with the other attributes.
 
     +row
@@ -534,7 +571,7 @@ p The L2 norm of the token's vector representation.
     +row
         +cell #[code right_edge]
         +cell #[code Token]
-        +cell The rightmost token of this token's syntactic descendents.
+        +cell The rightmost token of this token's syntactic descendants.
 
     +row
         +cell #[code i]
@@ -573,15 +610,15 @@ p The L2 norm of the token's vector representation.
         +cell #[code ent_id]
         +cell int
         +cell
-            |  ID of the entity the token is an instance of, if any. Usually
-            |  assigned by patterns in the Matcher.
+            |  ID of the entity the token is an instance of, if any. Currently
+            |  not used, but potentially for coreference resolution.
 
     +row
         +cell #[code ent_id_]
         +cell unicode
         +cell
-            |  ID of the entity the token is an instance of, if any. Usually
-            |  assigned by patterns in the Matcher.
+            |  ID of the entity the token is an instance of, if any. Currently
+            |  not used, but potentially for coreference resolution.
 
     +row
         +cell #[code lemma]
@@ -678,7 +715,7 @@ p The L2 norm of the token's vector representation.
         +cell bool
         +cell
             |  Does the token consist of ASCII characters? Equivalent to
-            |  #[code [any(ord(c) >= 128 for c in token.text)]].
+            |  #[code all(ord(c) &lt; 128 for c in token.text)].
 
     +row
         +cell #[code is_digit]

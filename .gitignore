@@ -4,6 +4,9 @@ corpora/
 /models/
 keys/
 
+# architecture specific binary
+bin/spacy_nlp
+
 # Website
 website/www/
 website/_deploy.sh
@@ -26,6 +29,7 @@ Profile.prof
 .Python
 .python-version
 __pycache__/
+.pytest_cache
 *.py[cod]
 .env/
 .env*

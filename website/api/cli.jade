@@ -137,6 +137,12 @@ p
         +cell Print information as Markdown.
 
     +row
+        +cell #[code --silent], #[code -s]
+            +tag-new("2.0.12")
+        +cell flag
+        +cell Don't print anything, just return the values.
+
+    +row
         +cell #[code --help], #[code -h]
         +cell flag
         +cell Show help message and available arguments.
@@ -222,7 +228,7 @@ p
         +cell JSON
         +cell Data in spaCy's #[+a("/api/annotation#json-input") JSON format].
 
-p The following converters are available:
+p The following file format converters are available:
 
 +table(["ID", "Description"])
     +row
@@ -239,7 +245,7 @@ p The following converters are available:
 
     +row
         +cell #[code iob]
-        +cell IOB named entity recognition format.
+        +cell IOB or IOB2 named entity recognition format.
 
 +h(3, "train") Train
 
@@ -254,7 +260,7 @@ p
 +code(false, "bash", "$", false, false, true).
     python -m spacy train [lang] [output_dir] [train_data] [dev_data] [--n-iter]
     [--n-sents] [--use-gpu] [--meta-path] [--vectors] [--no-tagger] [--no-parser]
-    [--no-entities] [--gold-preproc]
+    [--no-entities] [--gold-preproc] [--verbose]
 
 +table(["Argument", "Type", "Description"])
     +row
@@ -280,7 +286,7 @@ p
     +row
         +cell #[code --n-iter], #[code -n]
         +cell option
-        +cell Number of iterations (default: #[code 20]).
+        +cell Number of iterations (default: #[code 30]).
 
     +row
         +cell #[code --n-sents], #[code -ns]
@@ -337,6 +343,12 @@ p
         +cell #[code --help], #[code -h]
         +cell flag
         +cell Show help message and available arguments.
+
+    +row
+        +cell #[code --verbose]
+            +tag-new("2.0.13")
+        +cell flag
+        +cell Show more detail message during training.
 
     +row("foot")
         +cell creates
@@ -443,7 +455,7 @@ p
 
     +row
         +cell #[code optimizer_eps]
-        +cell Epsylon value for the Adam solver.
+        +cell Epsilon value for the Adam solver.
         +cell #[code 1e-08]
 
     +row

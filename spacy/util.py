@@ -222,15 +222,15 @@ def get_package_path(name):
 def is_in_jupyter():
     """Check if user is running spaCy from a Jupyter notebook by detecting the
     IPython kernel. Mainly used for the displaCy visualizer.
-
     RETURNS (bool): True if in Jupyter, False if not.
     """
+    # https://stackoverflow.com/a/39662359/6400719
     try:
-        cfg = get_ipython().config
-        if cfg['IPKernelApp']['parent_appname'] == 'ipython-notebook':
-            return True
+        shell = get_ipython().__class__.__name__
+        if shell == "ZMQInteractiveShell":
+            return True  # Jupyter notebook or qtconsole
     except NameError:
-        return False
+        return False  # Probably standard Python interpreter
     return False
 
 
@@ -487,7 +487,7 @@ def to_bytes(getters, exclude):
 
 
 def from_bytes(bytes_data, setters, exclude):
-    msg = msgpack.loads(bytes_data, encoding='utf8')
+    msg = msgpack.loads(bytes_data, raw=False)
     for key, setter in setters.items():
         if key not in exclude and key in msg:
             setter(msg[key])
@@ -599,6 +599,20 @@ def minify_html(html):
     return html.strip().replace('    ', '').replace('\n', '')
 
 
+def escape_html(text):
+    """Replace <, >, &, " with their HTML encoded representation. Intended to
+    prevent HTML errors in rendered displaCy markup.
+
+    text (unicode): The original text.
+    RETURNS (unicode): Equivalent text to be safely used within HTML.
+    """
+    text = text.replace('&', '&amp;')
+    text = text.replace('<', '&lt;')
+    text = text.replace('>', '&gt;')
+    text = text.replace('"', '&quot;')
+    return text
+
+
 def use_gpu(gpu_id):
     try:
         import cupy.cuda.device
@@ -630,3 +644,19 @@ class SimpleFrozenDict(dict):
 
     def update(self, other):
         raise NotImplementedError(Errors.E095)
+
+
+class DummyTokenizer(object):
+    # add dummy methods for to_bytes, from_bytes, to_disk and from_disk to
+    # allow serialization (see #1557)
+    def to_bytes(self, **exclude):
+        return b''
+
+    def from_bytes(self, _bytes_data, **exclude):
+        return self
+
+    def to_disk(self, _path, **exclude):
+        return None
+
+    def from_disk(self, _path, **exclude):
+        return self

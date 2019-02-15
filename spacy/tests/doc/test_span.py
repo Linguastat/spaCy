@@ -62,10 +62,24 @@ def test_spans_lca_matrix(en_tokenizer):
     tokens = en_tokenizer('the lazy dog slept')
     doc = get_doc(tokens.vocab, [t.text for t in tokens], heads=[2, 1, 1, 0])
     lca = doc[:2].get_lca_matrix()
-    assert(lca[0, 0] == 0)
-    assert(lca[0, 1] == -1)
-    assert(lca[1, 0] == -1)
-    assert(lca[1, 1] == 1)
+    assert lca.shape == (2, 2)
+    assert lca[0, 0] == 0  # the & the -> the
+    assert lca[0, 1] == -1 # the & lazy -> dog (out of span)
+    assert lca[1, 0] == -1 # lazy & the -> dog (out of span)
+    assert lca[1, 1] == 1  # lazy & lazy -> lazy
+
+    lca = doc[1:].get_lca_matrix()
+    assert lca.shape == (3, 3)
+    assert lca[0, 0] == 0 # lazy & lazy -> lazy
+    assert lca[0, 1] == 1 # lazy & dog -> dog
+    assert lca[0, 2] == 2 # lazy & slept -> slept
+
+    lca = doc[2:].get_lca_matrix()
+    assert lca.shape == (2, 2)
+    assert lca[0, 0] == 0 # dog & dog -> dog
+    assert lca[0, 1] == 1 # dog & slept -> slept
+    assert lca[1, 0] == 1 # slept & dog -> slept
+    assert lca[1, 1] == 1 # slept & slept -> slept
 
 
 def test_span_similarity_match():
@@ -133,3 +147,31 @@ def test_span_as_doc(doc):
     span = doc[4:10]
     span_doc = span.as_doc()
     assert span.text == span_doc.text.strip()
+
+def test_span_ents_property(doc):
+    """Test span.ents for the """
+    doc.ents = [
+        (doc.vocab.strings['PRODUCT'], 0, 1),
+        (doc.vocab.strings['PRODUCT'], 7, 8),
+        (doc.vocab.strings['PRODUCT'], 11, 14)
+    ]
+    assert len(list(doc.ents)) == 3
+    sentences = list(doc.sents)
+    assert len(sentences) == 3
+    assert len(sentences[0].ents) == 1
+    # First sentence, also tests start of sentence
+    assert sentences[0].ents[0].text == "This"
+    assert sentences[0].ents[0].label_ == "PRODUCT"
+    assert sentences[0].ents[0].start == 0
+    assert sentences[0].ents[0].end == 1
+    # Second sentence
+    assert len(sentences[1].ents) == 1
+    assert sentences[1].ents[0].text == "another"
+    assert sentences[1].ents[0].label_ == "PRODUCT"
+    assert sentences[1].ents[0].start == 7
+    assert sentences[1].ents[0].end == 8
+    # Third sentence ents, Also tests end of sentence
+    assert sentences[2].ents[0].text == "a third ."
+    assert sentences[2].ents[0].label_ == "PRODUCT"
+    assert sentences[2].ents[0].start == 11
+    assert sentences[2].ents[0].end == 14

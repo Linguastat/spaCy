@@ -5,12 +5,12 @@ spaCy is a library for advanced Natural Language Processing in Python and Cython
 It's built on the very latest research, and was designed from day one to be
 used in real products. spaCy comes with
 `pre-trained statistical models <https://spacy.io/models>`_ and word
-vectors, and currently supports tokenization for **20+ languages**. It features
+vectors, and currently supports tokenization for **30+ languages**. It features
 the **fastest syntactic parser** in the world, convolutional **neural network models**
 for tagging, parsing and **named entity recognition** and easy **deep learning**
 integration. It's commercial open-source software, released under the MIT license.
 
-💫 **Version 2.0 out now!** `Check out the new features here. <https://spacy.io/usage/v2>`_
+💫 **Version 2.0 out now!** `Check out the release notes here. <https://github.com/explosion/spaCy/releases>`_
 
 .. image:: https://img.shields.io/travis/explosion/spaCy/master.svg?style=flat-square&logo=travis
     :target: https://travis-ci.org/explosion/spaCy
@@ -32,9 +32,9 @@ integration. It's commercial open-source software, released under the MIT licens
     :target: https://anaconda.org/conda-forge/spacy
     :alt: conda Version
 
-.. image:: https://img.shields.io/badge/chat-join%20%E2%86%92-09a3d5.svg?style=flat-square&logo=gitter-white
-    :target: https://gitter.im/explosion/spaCy
-    :alt: spaCy on Gitter
+.. image:: https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white
+    :target: https://github.com/explosion/wheelwright/releases
+    :alt: Python wheels
 
 .. image:: https://img.shields.io/twitter/follow/spacy_io.svg?style=social&label=Follow
     :target: https://twitter.com/spacy_io
@@ -73,12 +73,12 @@ valuable if it's shared publicly, so that more people can benefit from it.
 
 ====================== ===
 **Bug Reports**        `GitHub Issue Tracker`_
-**Usage Questions**    `StackOverflow`_, `Gitter Chat`_, `Reddit User Group`_
+**Usage Questions**    `Stack Overflow`_, `Gitter Chat`_, `Reddit User Group`_
 **General Discussion** `Gitter Chat`_, `Reddit User Group`_
 ====================== ===
 
 .. _GitHub Issue Tracker: https://github.com/explosion/spaCy/issues
-.. _StackOverflow: http://stackoverflow.com/questions/tagged/spacy
+.. _Stack Overflow: http://stackoverflow.com/questions/tagged/spacy
 .. _Gitter Chat: https://gitter.im/explosion/spaCy
 .. _Reddit User Group: https://www.reddit.com/r/spacynlp
 
@@ -88,7 +88,7 @@ Features
 * **Fastest syntactic parser** in the world
 * **Named entity** recognition
 * Non-destructive **tokenization**
-* Support for **20+ languages**
+* Support for **30+ languages**
 * Pre-trained `statistical models <https://spacy.io/models>`_ and word vectors
 * Easy **deep learning** integration
 * Part-of-speech tagging
@@ -113,7 +113,7 @@ the `documentation <https://spacy.io/usage>`_.
 ==================== ===
 **Operating system** macOS / OS X, Linux, Windows (Cygwin, MinGW, Visual Studio)
 **Python version**   CPython 2.7, 3.4+. Only 64 bit.
-**Package managers** `pip`_ (source packages only), `conda`_ (via ``conda-forge``)
+**Package managers** `pip`_, `conda`_ (via ``conda-forge``)
 ==================== ===
 
 .. _pip: https://pypi.python.org/pypi/spacy
@@ -122,7 +122,8 @@ the `documentation <https://spacy.io/usage>`_.
 pip
 ---
 
-Using pip, spaCy releases are currently only available as source packages.
+Using pip, spaCy releases are available as source packages and binary wheels
+(as of ``v2.0.13``).
 
 .. code:: bash
 
@@ -133,7 +134,7 @@ environment to avoid modifying system state:
 
 .. code:: bash
 
-    venv .env
+    python -m venv .env
     source .env/bin/activate
     pip install spacy
 
@@ -199,11 +200,6 @@ or manually by pointing pip to a path or URL.
     # pip install .tar.gz archive from path or URL
     pip install /Users/you/en_core_web_sm-2.0.0.tar.gz
 
-If you have SSL certification problems, SSL customization options are described in the help:
-
-    # help for the download command
-    python -m spacy download --help
-
 Loading and using models
 ------------------------
 
@@ -255,12 +251,12 @@ details.
 
 .. code:: bash
 
-    # make sure you are using recent pip/virtualenv versions
-    python -m pip install -U pip venv
+    # make sure you are using the latest pip
+    python -m pip install -U pip
     git clone https://github.com/explosion/spaCy
     cd spaCy
 
-    venv .env
+    python -m venv .env
     source .env/bin/activate
     # This export add this directory so that if spacy is imported, it knows where to look
     export PYTHONPATH=`pwd`

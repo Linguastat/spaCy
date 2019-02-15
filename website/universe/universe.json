@@ -184,7 +184,7 @@
                 "from spacy_lookup import Entity",
                 "",
                 "nlp = spacy.load('en')",
-                "entity = Entity(nlp, keywords_list=['python', 'java platform'])",
+                "entity = Entity(keywords_list=['python', 'java platform'])",
                 "nlp.add_pipe(entity, last=True)",
                 "",
                 "doc = nlp(u\"I am a product manager for a java and python.\")",
@@ -251,27 +251,29 @@
         },
         {
             "id": "spacy-lefff",
-            "slogan": "French lemmatization with Lefff",
-            "description": "spacy v2.0 extension and pipeline component for adding a French lemmatizer based on [Lefff](https://hal.inria.fr/inria-00521242/).",
+            "slogan": "POS and French lemmatization with Lefff",
+            "description": "spacy v2.0 extension and pipeline component for adding a French POS and lemmatizer based on [Lefff](https://hal.inria.fr/inria-00521242/).",
             "github": "sammous/spacy-lefff",
             "pip": "spacy-lefff",
             "code_example": [
                 "import spacy",
-                "from spacy_lefff import LefffLemmatizer",
+                "from spacy_lefff import LefffLemmatizer, POSTagger",
                 "",
                 "nlp = spacy.load('fr')",
-                "french_lemmatizer = LefffLemmatizer()",
-                "nlp.add_pipe(french_lemmatizer, name='lefff', after='parser')",
+                "pos = POSTagger()",
+                "french_lemmatizer = LefffLemmatizer(after_melt=True)",
+                "nlp.add_pipe(pos, name='pos', after='parser')",
+                "nlp.add_pipe(french_lemmatizer, name='lefff', after='pos')",
                 "doc = nlp(u\"Paris est une ville très chère.\")",
                 "for d in doc:",
-                "    print(d.text, d.pos_, d._.lefff_lemma, d.tag_)"
+                "    print(d.text, d.pos_, d._.melt_tagger, d._.lefff_lemma, d.tag_, d.lemma_)"
             ],
             "author": "Sami Moustachir",
             "author_links": {
                 "github": "sammous"
             },
             "category": ["pipeline"],
-            "tags": ["lemmatizer", "french"]
+            "tags": ["pos", "lemmatizer", "french"]
         },
         {
             "id": "lemmy",
@@ -768,7 +770,7 @@
                 "✨ Starting the web server on port 8080..."
             ],
             "code_language": "bash",
-            "category": ["standalone"],
+            "category": ["standalone", "training"],
             "author": "Explosion AI",
             "author_links": {
                 "twitter": "explosion_ai",
@@ -872,13 +874,250 @@
             },
             "category": ["standalone"],
             "tags": [ "question-answering", "elasticsearch"]
-        }
+        },
+        {
+            "id": "epitator",
+            "title": "EpiTator",
+            "thumb": "http://apps.eha.io/images/eha-logo.jpg",
+            "slogan": "Extracts case counts, resolved location/species/disease names, date ranges and more",
+            "description": "EcoHealth Alliance uses EpiTator to catalog the what, where and when of infectious disease case counts reported in online news. Each of these aspects is extracted using independent annotators than can be applied to other domains. EpiTator organizes annotations by creating \"AnnoTiers\" for each type. AnnoTiers have methods for manipulating, combining and searching annotations. For instance, the `with_following_spans_from()` method can be used to create a new tier that combines a tier of one type (such as numbers), with another (say, kitchenware). The resulting tier will contain all the phrases in the document that match that pattern, like \"5 plates\" or \"2 cups.\"\n\nAnother commonly used method is `group_spans_by_containing_span()` which can be used to do things like find all the spaCy tokens in all the GeoNames a document mentions. spaCy tokens, named entities, sentences and noun chunks are exposed through the spaCy annotator which will create a AnnoTier for each. These are basis of many of the other annotators. EpiTator also includes an annotator for extracting tables embedded in free text articles. Another neat feature is that the lexicons used for entity resolution are all stored in an embedded sqlite database so there is no need to run any external services in order to use EpiTator.",
+            "url": "https://github.com/ecohealthalliance/EpiTator",
+            "github": "ecohealthalliance/EpiTator",
+            "pip": "EpiTator",
+            "code_example": [
+                "from epitator.annotator import AnnoDoc",
+                "from epitator.geoname_annotator import GeonameAnnotator",
+                "",
+                "doc = AnnoDoc('Where is Chiang Mai?')",
+                "geoname_annotier = doc.require_tiers('geonames', via=GeonameAnnotator)",
+                "geoname = geoname_annotier.spans[0].metadata['geoname']",
+                "geoname['name']",
+                "# = 'Chiang Mai'",
+                "geoname['geonameid']",
+                "# = '1153671'",
+                "geoname['latitude']",
+                "# = 18.79038",
+                "geoname['longitude']",
+                "# = 98.98468",
+                "",
+                "from epitator.spacy_annotator import SpacyAnnotator",
+                "spacy_token_tier = doc.require_tiers('spacy.tokens', via=SpacyAnnotator)",
+                "list(geoname_annotier.group_spans_by_containing_span(spacy_token_tier))",
+                "# = [(AnnoSpan(9-19, Chiang Mai), [AnnoSpan(9-15, Chiang), AnnoSpan(16-19, Mai)])]"
+            ],
+            "author": "EcoHealth Alliance",
+            "author_links": {
+                "github": "ecohealthalliance",
+                "website": " https://ecohealthalliance.org/"
+            },
+            "category": ["research", "standalone"]
+        },
+        {
+            "id": "self-attentive-parser",
+            "title": "Berkeley Neural Parser",
+            "slogan": "Constituency Parsing with a Self-Attentive Encoder (ACL 2018)",
+            "description": "A Python implementation of the parsers described in *\"Constituency Parsing with a Self-Attentive Encoder\"* from ACL 2018.",
+            "url": "https://arxiv.org/abs/1805.01052",
+            "github": "nikitakit/self-attentive-parser",
+            "pip": "benepar",
+            "code_example": [
+                "import spacy",
+                "from benepar.spacy_plugin import BeneparComponent",
+                "",
+                "nlp = spacy.load('en')",
+                "nlp.add_pipe(BeneparComponent('benepar_en'))",
+                "doc = nlp(u'The time for action is now. It's never too late to do something.')",
+                "sent = list(doc.sents)[0]",
+                "print(sent._.parse_string)",
+                "# (S (NP (NP (DT The) (NN time)) (PP (IN for) (NP (NN action)))) (VP (VBZ is) (ADVP (RB now))) (. .))",
+                "print(sent._.labels)",
+                "# ('S',)",
+                "print(list(sent._.children)[0])",
+                "# The time for action"
+            ],
+            "author": "Nikita Kitaev",
+            "author_links": {
+                "github": "nikitakit",
+                "website": " http://kitaev.io"
+            },
+            "category": ["research", "pipeline"]
+        },
+        {
+            "id": "excelcy",
+            "title": "ExcelCy",
+            "slogan": "Excel Integration with spaCy. Training NER using XLSX from PDF, DOCX, PPT, PNG or JPG.",
+            "description": "ExcelCy is a toolkit to integrate Excel to spaCy NLP training experiences. Training NER using XLSX from PDF, DOCX, PPT, PNG or JPG. ExcelCy has pipeline to match Entity with PhraseMatcher or Matcher in regular expression.",
+            "url": "https://github.com/kororo/excelcy",
+            "github": "kororo/excelcy",
+            "pip": "excelcy",
+            "code_example": [
+                "from excelcy import ExcelCy",
+                "# collect sentences, annotate Entities and train NER using spaCy",
+                "excelcy = ExcelCy.execute(file_path='https://github.com/kororo/excelcy/raw/master/tests/data/test_data_01.xlsx')",
+                "# use the nlp object as per spaCy API",
+                "doc = excelcy.nlp('Google rebrands its business apps')",
+                "# or save it for faster bootstrap for application",
+                "excelcy.nlp.to_disk('/model')"
+            ],
+            "author": "Robertus Johansyah",
+            "author_links": {
+                "github": "kororo"
+            },
+            "category": ["training"],
+            "tags": ["excel"]
+        },
+        {
+            "id": "spacy-graphql",
+            "title": "spacy-graphql",
+            "slogan": "Query spaCy's linguistic annotations using GraphQL",
+            "github": "ines/spacy-graphql",
+            "description": "A very simple and experimental app that lets you query spaCy's linguistic annotations using [GraphQL](https://graphql.org/). The API currently supports most token attributes, named entities, sentences and text categories (if available as `doc.cats`, i.e. if you added a text classifier to a model). The `meta` field will return the model meta data. Models are only loaded once and kept in memory.",
+            "url": "https://explosion.ai/demos/spacy-graphql",
+            "category": ["apis"],
+            "tags": ["graphql"],
+            "thumb": "https://i.imgur.com/xC7zpTO.png",
+            "code_example": [
+                "{",
+                "  nlp(text: \"Zuckerberg is the CEO of Facebook.\", model: \"en_core_web_sm\") {",
+                "    meta {",
+                "      lang",
+                "      description",
+                "    }",
+                "    doc {",
+                "      text",
+                "      tokens {",
+                "        text",
+                "        pos_",
+                "      }",
+                "      ents {",
+                "        text",
+                "        label_",
+                "      }",
+                "    }",
+                "  }",
+                "}"
+            ],
+            "code_language": "json",
+            "author": "Ines Montani",
+            "author_links": {
+                "twitter": "_inesmontani",
+                "github": "ines",
+                "website": "https://ines.io"
+            }
+        },
+        {
+            "id": "spacy-js",
+            "title": "spacy-js",
+            "slogan": "JavaScript API for spaCy with Python REST API",
+            "github": "ines/spacy-js",
+            "description": "JavaScript interface for accessing linguistic annotations provided by spaCy. This project is mostly experimental and was developed for fun to play around with different ways of mimicking spaCy's Python API.\n\nThe results will still be computed in Python and made available via a REST API. The JavaScript API resembles spaCy's Python API as closely as possible (with a few exceptions, as the values are all pre-computed and it's tricky to express complex recursive relationships).",
+            "code_language": "javascript",
+            "code_example": [
+                "const spacy = require('spacy');",
+                "",
+                "(async function() {",
+                "    const nlp = spacy.load('en_core_web_sm');",
+                "    const doc = await nlp('This is a text about Facebook.');",
+                "    for (let ent of doc.ents) {",
+                "        console.log(ent.text, ent.label);",
+                "    }",
+                "    for (let token of doc) {",
+                "        console.log(token.text, token.pos, token.head.text);",
+                "    }",
+                "})();"
+            ],
+            "author": "Ines Montani",
+            "author_links": {
+                "twitter": "_inesmontani",
+                "github": "ines",
+                "website": "https://ines.io"
+            },
+            "category": ["nonpython"],
+            "tags": ["javascript"]
+        },
+        {
+            "id": "spacy-raspberry",
+            "title": "spacy-raspberry",
+            "slogan": "64bit Raspberry Pi image for spaCy and neuralcoref",
+            "github": "boehm-e/spacy-raspberry",
+            "thumb": "https://i.imgur.com/VCJMrE6.png",
+            "image": "https://raw.githubusercontent.com/boehm-e/spacy-raspberry/master/imgs/preview.png",
+            "author": "Erwan Boehm",
+            "author_links": {
+                "github": "boehm-e"
+            },
+            "category": ["apis"],
+            "tags": ["raspberrypi"]
+        },
+        {
+            "id": "spacy-wordnet",
+            "title": "spacy-wordnet",
+            "slogan": "WordNet meets spaCy",
+            "description": "`spacy-wordnet` creates annotations that easily allow the use of WordNet and [WordNet Domains](http://wndomains.fbk.eu/) by using the [NLTK WordNet interface](http://www.nltk.org/howto/wordnet.html)",
+            "github": "recognai/spacy-wordnet",
+            "tags": ["wordnet", "synsets"],
+            "thumb": "https://i.imgur.com/3y2uPUv.jpg",
+            "code_example": [
+                "import spacy",
+                "from spacy_wordnet.wornet_annotator import WordnetAnnotator ",
+                "",
+                "# Load an spacy model (supported models are \"es\" and \"en\") ",
+                "nlp = spacy.load('en')",
+                "nlp.add_pipe(WordnetAnnotator(nlp.lang), after='tagger')",
+                "token = nlp('prices')[0]",
+                "",
+                "# wordnet object link spacy token with nltk wordnet interface by giving acces to",
+                "# synsets and lemmas ",
+                "token._.wordnet.synsets()",
+                "token._.wordnet.lemmas()",
+                "",
+                "# And automatically tags with wordnet domains",
+                "token._.wordnet.wordnet_domains()"
+            ],
+            "author": "recognai",
+            "author_links": {
+                "github": "recognai",
+                "twitter": "recogn_ai",
+                "website": "https://recogn.ai"
+            },
+            "category": ["pipeline"]
+        },
+        {
+            "id": "spacy-conll",
+            "title": "spacy_conll",
+            "slogan": "Parse text with spaCy and print the output in CoNLL-U format",
+            "description": "This module allows you to parse a text to CoNLL-U format. You can use it as a command line tool, or embed it in your own scripts.",
+            "code_example": [
+                "from spacy_conll import Spacy2ConllParser",
+                "spacyconll = Spacy2ConllParser()",
+                "",
+                "# `parse` returns a generator of the parsed sentences",
+                "for parsed_sent in spacyconll.parse(input_str='I like cookies.\nWhat about you?\nI don't like 'em!'):",
+                "    do_something_(parsed_sent)",
+                "",
+                "# `parseprint` prints output to stdout (default) or a file (use `output_file` parameter)",
+                "# This method is called when using the command line",
+                "spacyconll.parseprint(input_str='I like cookies.')"
+            ],
+            "code_language": "python",
+            "author": "Bram Vanroy",
+            "author_links": {
+                "github": "BramVanroy",
+                "website": "https://bramvanroy.be"
 
+            },
+            "github": "BramVanroy/spacy_conll",
+            "category": ["standalone"]
+        }
     ],
     "projectCats": {
         "pipeline": {
             "title": "Pipeline",
             "description": "Custom pipeline components and extensions"
+        },
+        "training": {
+            "title": "Training",
+            "description": "Helpers and toolkits for training spaCy models"
         },
         "conversational": {
             "title": "Conversational",
