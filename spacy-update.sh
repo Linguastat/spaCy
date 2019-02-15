@@ -2,7 +2,7 @@
 # Installing spaCy.
 
 # Verify python 3 is the main path installed version
-PYTHON=$(python -V 2>&1)
+PYTHON=$(python3 -V 2>&1)
 
 if [ -z "$CONDAHOME" ]
 then
@@ -24,8 +24,8 @@ else
 fi
 
 # store python version major and minor
-PYMAJOR=($(python -c "import sys; print(sys.version_info.major)"))
-PYMINOR=($(python -c "import sys; print(sys.version_info.minor)"))
+PYMAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
+PYMINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
 
 # move to spaCy and pull the latest 
 cd $SPACYHOME
@@ -34,16 +34,16 @@ git fetch origin
 git checkout master 
 git pull origin master 
 # install requirements
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 # clean spaCy
-python setup.py clean
+python3 setup.py clean
 rm spacy/spacy_nlp.cpp
 # install spaCy
-python setup.py build_ext --inplace
+python3 setup.py build_ext --inplace
 # install spaCy developed language models
 #python -m spacy download en
-#python -m spacy download en_core_web_sm
-#python -m spacy download en_core_web_md
+python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_md
 # install our models
 
 # create the cppd files with cython
