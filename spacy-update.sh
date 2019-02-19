@@ -3,7 +3,8 @@
 
 # getting default python major version (could be default OS python or an anaconda version)
 PYMAJOR=($(python -c "import sys; print(sys.version_info.major)"))
-# store python version major and minor
+# store python3 version, major and minor
+PY3VERSION=$(python3 -V 2>&1)
 PY3MAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
 PY3MINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
 
@@ -28,7 +29,7 @@ then
 fi
 
 if command -v python3 &>/dev/null; then
-    echo "Updating spaCy at $PY3MAJOR"
+    echo "Updating spaCy at $PY3VERSION"
 else
     echo 'Python 3 installation could not be found.'
     exit 1
