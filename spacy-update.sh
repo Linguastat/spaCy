@@ -1,15 +1,26 @@
 #!/bin/bash
 # Installing spaCy.
 
-# Verify python 3 is the main path installed version
-PYTHON=$(python3 -V 2>&1)
+# getting default python major version (could be default OS python or an anaconda version)
+PYMAJOR=($(python -c "import sys; print(sys.version_info.major)"))
+# store python version major and minor
+PY3MAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
+PY3MINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
 
+# check $CONDAHOME is set
 if [ -z "$CONDAHOME" ]
 then
       echo "\$CONDAHOME must contain the path to your installed conda."
       exit 1
 fi
 
+# Veryify python 2 is the main path installed version
+if [ "$PYMAJOR" -ne 2 ]
+then
+      echo "WARNING: Default Python2 not set as first in PATH, you may need to 'export PATH=\$PATH:\$CONDAHOME/bin' in .bashrc or .bash_profile"
+fi
+
+# Verifying $SPACYHOME is set
 if [ -z "$SPACYHOME" ]
 then
       echo "\$SPACYHOME must contain the path to your previously installed spaCy."
@@ -17,15 +28,11 @@ then
 fi
 
 if command -v python3 &>/dev/null; then
-    echo "Updating spaCy at $PYTHON"
+    echo "Updating spaCy at $PY3MAJOR"
 else
     echo 'Python 3 installation could not be found.'
     exit 1
 fi
-
-# store python version major and minor
-PYMAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
-PYMINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
 
 # move to spaCy and pull the latest 
 cd $SPACYHOME
@@ -49,4 +56,4 @@ python -m spacy download en_core_web_md
 # create the cppd files with cython
 cython --embed -o spacy/spacy_nlp.cpp spacy/spacy_nlp.py
 # build the binary wrapper
-gcc -v -Os -I ${CONDAHOME}/include/python${PYMAJOR}.${PYMINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PYMAJOR}.${PYMINOR}m -lpthread -lm -lutil -ldl
+gcc -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl
