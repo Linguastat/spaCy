@@ -59,5 +59,5 @@ cython --embed -o spacy/spacy_nlp.cpp spacy/spacy_nlp.py
 gcc -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl
 
 # finally if all is successful, update .bashrc
-echo 'export SPACYHOME="$SPACYHOME"' >> ~/.bashrc
-echo 'export PYTHONPATH="$SPACYHOME"' >> ~/.bashrc
+echo "export SPACYHOME=$SPACYHOME" >> ~/.bashrc
+echo "export PYTHONPATH=$SPACYHOME" >> ~/.bashrc
