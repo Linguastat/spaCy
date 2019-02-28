@@ -1,5 +1,5 @@
 #!/bin/bash
-# Installing spaCy.
+# Installing spaCy new.
 
 # getting default python major version (could be default OS python or an anaconda version)
 PYMAJOR=($(python -c "import sys; print(sys.version_info.major)"))

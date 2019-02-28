@@ -2,7 +2,7 @@
 import os
 import sys
 from pathlib import Path
-import importlib
+from importlib import util
 from subprocess import CalledProcessError, call, check_output
 #import yum
 
@@ -29,48 +29,30 @@ gcc4s_list = list(gccs_path.glob('gcc4[0-9]'))
 if gcc4s_list:
     cc = gcc4s_list[0].name
 # set the environment variable for the session
+print("spaCy build gcc version set: " + cc)
 os.environ["CC"] = cc
 
 # startup and save python version numbers
-print("Spacy install destination:\n" + sys.version)
+print("spaCy install destination:\n" + sys.version)
 
-# store python3 version, major and minor
-py3_major = sys.version_info.major
-py3_minor = sys.version_info.minor
-#PY3VERSION=$(python3 -V 2>&1)
-#PY3MAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
-#PY3MINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
-
-# Verify proper setup
-#os.environ["FARTS"] = "Gaseous"
-#subprocess.call("./callfrompy.sh")
+# set python3 version, major and minor
+os.environ["PY3MAJOR"] = str(sys.version_info.major)
+os.environ["PY3MINOR"] = str(sys.version_info.minor)
 
 # is $CONDAHOME set?
 if "CONDAHOME" not in os.environ:
     print("$CONDAHOME must be set with the path to an installed python3 conda environment.")
     exit(1)
 # is spacy not installed as a module?
-#if 'spacy' in sys.modules:
-#    print("Spacy has been installed as a module (perhaps in pip).  Uninstall before continuing.")
-#    exit(1)
-
-# checking if spacy installed $SPACYHOME and its module
-#try:
-#    imp.find_module('spacy')
-#    found = True;
-#except ImportError:
-#    found = False
-
-#print(found)
-
-# make sure gcc has cc1plus
-
-
-
-#    echo "\$SPACYHOME must not already be installed.  Run the spacy-update.sh instead"
-#    exit 1
-#fi
-
-# update spacy
-call("./spacy-update.sh")
-
+if 'spacy' in sys.modules:
+    print("Spacy has been installed as a module (perhaps in pip).  Uninstall before continuing.")
+    exit(1)
+# checking if spacy installed at $SPACYHOME
+find_spacy = util.find_spec('spacy')
+if find_spacy is None:
+    call("./spacy-install.sh")
+else:
+    if "SPACYHOME" in os.environ:
+        call("./spacy-update.sh")
+    else:
+        print("Spacy is installed via source but SPACYHOME does not exist.  Please set SPACYHOME.")
