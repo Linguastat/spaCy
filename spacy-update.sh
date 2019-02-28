@@ -35,17 +35,16 @@ else
     exit 1
 fi
 
-# move to spaCy and pull the latest 
+# move to spaCy and clean 
 cd $SPACYHOME
+python3 setup.py clean
+rm spacy/spacy_nlp.cpp
 # clone spaCy repo
 git fetch origin
 git checkout master 
 git pull origin master 
 # install requirements
-pip3 install -r requirements.txt
-# clean spaCy
-python3 setup.py clean
-rm spacy/spacy_nlp.cpp
+$CONDAHOME/bin/pip install -r requirements.txt
 # install spaCy
 python3 setup.py build_ext --inplace
 # install spaCy developed language models
@@ -57,4 +56,4 @@ python3 setup.py build_ext --inplace
 # create the cppd files with cython
 cython --embed -o spacy/spacy_nlp.cpp spacy/spacy_nlp.py
 # build the binary wrapper
-gcc -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl
+$CC -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl -Wl,-rpath,/home/ec2-operations/miniconda/lib

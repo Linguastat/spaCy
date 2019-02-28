@@ -1,18 +1,38 @@
 #!/usr/bin/env python3
 import os
 import sys
-import imp
-import subprocess
+from pathlib import Path
+import importlib
+from subprocess import CalledProcessError, call, check_output
+#import yum
 
-# what's the default gcc and g++
-#print(subprocess.Popen(["gcc","-v"]))
-#print(subprocess.call(["g++","-v"]))
-os.environ["CC"] = "/usr/bin/gcc48"
+# set CC to default gcc on PATH
+cc = "gcc"
 
-# specify gcc for ami production
-#os.environ['CC']="/usr/bin/gcc48"
+# There are a few ways to do this. Use the yum module in system python, 
+# maybe install gcc-python or just make shell calls.
+#yb = yum.YumBase()
+#yb.conf.cache = os.geteuid() != 0
+
+# need to default to gcc 4X for inclusion of cc1plus file
+try:
+    default_gccpath = check_output(["which", "gcc"])
+    returncode = 0
+except CalledProcessError as e:
+    default_gccpath = e.output
+    print("\nNo gcc could be found. Exit.")
+    exit(e.returncode)
+# take default gcc path, open and check for gcc4* versions
+gccs_path = Path(default_gccpath.decode("utf-8")).parent
+gcc4s_list = list(gccs_path.glob('gcc4[0-9]'))
+# should only contain one gcc4X, load as cc
+if gcc4s_list:
+    cc = gcc4s_list[0].name
+# set the environment variable for the session
+os.environ["CC"] = cc
+
 # startup and save python version numbers
-print("Spacy modified at: \n" + sys.version)
+print("Spacy install destination:\n" + sys.version)
 
 # store python3 version, major and minor
 py3_major = sys.version_info.major
@@ -22,17 +42,17 @@ py3_minor = sys.version_info.minor
 #PY3MINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
 
 # Verify proper setup
-os.environ["FARTS"] = "Gaseous"
-subprocess.call("./callfrompy.sh")
+#os.environ["FARTS"] = "Gaseous"
+#subprocess.call("./callfrompy.sh")
 
 # is $CONDAHOME set?
 if "CONDAHOME" not in os.environ:
     print("$CONDAHOME must be set with the path to an installed python3 conda environment.")
     exit(1)
 # is spacy not installed as a module?
-if 'spacy' in sys.modules:
-    print("Spacy has been installed as a module (perhaps in pip).  Uninstall before continuing.")
-    exit(1)
+#if 'spacy' in sys.modules:
+#    print("Spacy has been installed as a module (perhaps in pip).  Uninstall before continuing.")
+#    exit(1)
 
 # checking if spacy installed $SPACYHOME and its module
 #try:
@@ -51,4 +71,6 @@ if 'spacy' in sys.modules:
 #    exit 1
 #fi
 
+# update spacy
+call("./spacy-update.sh")
 

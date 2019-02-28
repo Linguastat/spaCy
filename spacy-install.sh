@@ -38,7 +38,7 @@ fi
 
 # move home to spaCy and clone the latest spaCy repo
 cd $HOME
-git clone https://github.com/Linguastat/spaCy.git
+#git clone https://github.com/Linguastat/spaCy.git
 cd spaCy
 SPACYHOME=`pwd`
 # install requirements
