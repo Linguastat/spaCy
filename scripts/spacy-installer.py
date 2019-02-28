@@ -50,9 +50,11 @@ if 'spacy' in sys.modules:
 # checking if spacy installed at $SPACYHOME
 find_spacy = util.find_spec('spacy')
 if find_spacy is None:
+    print("Invoking spacy-install.sh")
     call("./spacy-install.sh")
 else:
     if "SPACYHOME" in os.environ:
+        print("Invoking spacy-update.sh")
         call("./spacy-update.sh")
     else:
         print("Spacy is installed via source but SPACYHOME does not exist.  Please set SPACYHOME.")
