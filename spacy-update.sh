@@ -5,8 +5,8 @@
 PYMAJOR=($(python -c "import sys; print(sys.version_info.major)"))
 # store python3 version, major and minor
 PY3VERSION=$(python3 -V 2>&1)
-PY3MAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
-PY3MINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
+#PY3MAJOR=($(python3 -c "import sys; print(sys.version_info.major)"))
+#PY3MINOR=($(python3 -c "import sys; print(sys.version_info.minor)"))
 
 # check $CONDAHOME is set
 if [ -z "$CONDAHOME" ]
@@ -20,6 +20,8 @@ if [ "$PYMAJOR" -ne 2 ]
 then
       echo "WARNING: Default Python2 not set as first in PATH, you may need to 'export PATH=\$PATH:\$CONDAHOME/bin' in .bashrc or .bash_profile"
 fi
+
+# CHECK FOR PYMINOR
 
 # Verifying $SPACYHOME is set
 if [ -z "$SPACYHOME" ]
@@ -37,8 +39,8 @@ fi
 
 # move to spaCy and clean 
 cd $SPACYHOME
-python3 setup.py clean
-rm spacy/spacy_nlp.cpp
+#######$CONDAHOME/bin/python setup.py clean
+#######rm spacy/spacy_nlp.cpp
 # clone spaCy repo
 git fetch origin
 git checkout master 
@@ -46,14 +48,16 @@ git pull origin master
 # install requirements
 $CONDAHOME/bin/pip install -r requirements.txt
 # install spaCy
-python3 setup.py build_ext --inplace
+#######$CONDAHOME/bin/python setup.py build_ext --inplace
 # install spaCy developed language models
 #python -m spacy download en
-#python -m spacy download en_core_web_sm
-#python -m spacy download en_core_web_md
+python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_md
 # install our models
 
 # create the cppd files with cython
 cython --embed -o spacy/spacy_nlp.cpp spacy/spacy_nlp.py
+
+echo "$CC -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl -Wl,-rpath,${CONDAHOME}/lib"
 # build the binary wrapper
-$CC -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl -Wl,-rpath,/home/ec2-operations/miniconda/lib
+$CC -v -Os -I ${CONDAHOME}/include/python${PY3MAJOR}.${PY3MINOR}m -L ${CONDAHOME}/lib -o ${SPACYHOME}/bin/spacy_nlp ${SPACYHOME}/spacy/spacy_nlp.cpp  -lpython${PY3MAJOR}.${PY3MINOR}m -lpthread -lm -lutil -ldl -Wl,-rpath,${CONDAHOME}/lib
