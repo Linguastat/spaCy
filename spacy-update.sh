@@ -39,8 +39,8 @@ fi
 
 # move to spaCy and clean 
 cd $SPACYHOME
-#######$CONDAHOME/bin/python setup.py clean
-#######rm spacy/spacy_nlp.cpp
+$CONDAHOME/bin/python setup.py clean
+rm spacy/spacy_nlp.cpp
 # clone spaCy repo
 git fetch origin
 git checkout master 
@@ -48,7 +48,7 @@ git pull origin master
 # install requirements
 $CONDAHOME/bin/pip install -r requirements.txt
 # install spaCy
-#######$CONDAHOME/bin/python setup.py build_ext --inplace
+$CONDAHOME/bin/python setup.py build_ext --inplace
 # install spaCy developed language models
 #python -m spacy download en
 python -m spacy download en_core_web_sm
